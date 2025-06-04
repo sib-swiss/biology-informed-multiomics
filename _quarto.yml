@@ -1,0 +1,77 @@
+project:
+  type: website
+  execute-dir: project
+  render:
+    - "*.qmd"
+    - "!CONTRIBUTIONG.md"
+    - "!LICENSE.md"
+
+website:
+  title: "Biology-informed Multiomics Data Integration and Visualization"
+  favicon: assets/SIB_logo.svg
+  search: true
+  page-navigation: true
+  # google-analytics: G-1H5B39PY7V
+  # cookie-consent: true
+  navbar:
+    background: "#003eaa"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: precourse_preparations.qmd
+      - href: course_schedule.qmd
+      - text: "day 1"
+        menu:
+          - href: "day1/day1_exercise_1.qmd"
+          - href: "day1/day1_exercise_2.qmd"
+          - href: "day1/day1_exercise_3.qmd"
+      - text: "day 2"
+        menu: 
+          - href: "day2/day2_exercise_1.qmd"
+          - href: "day2/day2_exercise_2.qmd"
+          - href: "day2/day2_exercise_3.qmd"
+          - href: "day2/day2-4_clustering.qmd"
+      - text: "exercises"
+        menu:
+          - href: "exercises/exercise1.qmd"
+          - href: "exercises/exercise2.qmd"
+          - href: "exercises/exercise3.qmd"
+          - href: "exercises/exercise4.qmd"
+          
+    right:
+      - icon: github
+        href: https://github.com/sib-swiss/biology-informed-multiomics
+        aria-label: GitHub
+  sidebar:
+    logo: assets/SIB_LogoQ_GBv.svg
+
+format:
+  html:
+    code-link: true
+    theme: 
+      - default
+      - custom.scss
+    toc: true
+    header-includes: |
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+      <!-- Matomo -->
+      <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+          var u="https://matomo.sib.swiss/";
+          _paq.push(['setTrackerUrl', u+'matomo.php']);
+          _paq.push(['setSiteId', '220']);
+          var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+          g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+      </script>
+      <!-- End Matomo Code -->
+
+
+execute:
+  freeze: auto 
+  cache: true
+  tidy: true

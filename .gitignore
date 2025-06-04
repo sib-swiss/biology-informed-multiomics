@@ -1,0 +1,26 @@
+.DS_Store
+site
+.Rproj.user
+.cache
+.local
+.config
+.bash_history
+.Rhistory
+.Rprofile
+single_cell_course
+cellranger*
+course_data*
+*.rds
+_site/
+# _freeze/
+.quarto/
+/.quarto/
+*cache*
+*_files*
+/.luarc.json
+~$*
+.sh_history
+.wget-hsts
+de_genes_FindAllMarkers.csv
+*.html
+data/
