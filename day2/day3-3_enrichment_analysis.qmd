@@ -21,20 +21,11 @@ format: docx
 ## Exercises
 
 ```{r}
-#| echo: false
-#| output: false
-tum_vs_norm <- readRDS("day3/tum_vs_norm_day3-2.rds")
-limma_de <- readRDS("day3/limma_de_day3-2.rds")
-proB <- readRDS("day3/proB_day3-2.rds")
 ```
 
 Load the following packages:
 
 ```{r}
-#| echo: false
-#| output: false
-library(clusterProfiler)
-library(enrichplot)
 ```
 
 If the `FindMarkers` or `FindAllMarkers` functions were used,
@@ -54,10 +45,6 @@ symbol, Ensembl ID, Entrez ID. To list the allowed
 label types use:
 
 ```{r}
-#| output: false
-# BiocManager::install("org.Hs.eg.db", update = FALSE)
-library(org.Hs.eg.db)
-AnnotationDbi::keytypes(org.Hs.eg.db)
 ```
 
 ::: {.callout-info}
@@ -68,38 +55,19 @@ For other organisms, you can find available OrgDbs at [bioconductor](http://bioc
 Let's select a set of genes that are downregulated in the tumor cells compared to normal:
 
 ```{r}
-tum_down  <- subset(limma_de,
-                    limma_de$logFC < -1 
-                      & limma_de$adj.P.Val <  0.05)
-tum_down_genes <- rownames(tum_down)
 ```
 
 We can do a Gene Ontology term over-representation analysis based on this set of genes. Make sure you check out the help of this function to understand its arguments:
 
 ```{r}
-#| eval: false
-?enrichGO
-```
-
-```{r}
-#| output: false
-tum_vs_norm_go <- clusterProfiler::enrichGO(tum_down_genes,
-                                            "org.Hs.eg.db",
-                                            keyType = "SYMBOL",
-                                            ont = "BP",
-                                            minGSSize = 50)
 ```
 
 The results are stored in the `@result` slot:
 
 ```{r}
-#| eval: false
-View(tum_vs_norm_go@result)
 ```
 
 ```{r}
-#| echo: false
-tum_vs_norm_go@result[, 1:7] |> head() |> knitr::kable()
 ```
 
 ::: {.callout-note}
@@ -121,64 +89,9 @@ A low p-value resulting from the Fisher's exact means that M/N is signficantly g
 
 Some GO terms seem redundant because they contain many of the same genes, which is a characteristic of Gene Ontology gene sets. We can simplify this list by removing redundant gene sets:
 
-```{r}
-#| output: false
-enr_go <- clusterProfiler::simplify(tum_vs_norm_go)
-```
-
-```{r}
-#| eval: false
-View(enr_go@result)
-```
-
-```{r}
-#| echo: false
-enr_go@result[, 1:7] |> head() |> knitr::kable()
-```
-
 We can quite easily generate a plot called an enrichment map with the `enrichplot` package:
 
-```{r}
-#| eval: false
-enrichplot::emapplot(enrichplot::pairwise_termsim(enr_go),
-                     showCategory = 30)
-```
-
 Instead of testing for Gene Ontology terms, we can also test for other gene set collections. For example the Hallmark collection from [MSigDB](http://www.gsea-msigdb.org/gsea/msigdb/index.jsp):
-
-```{r}
-library(msigdbr)
-library(msigdbdf)
-gmt <- msigdbr::msigdbr(species = "human", category = "H")
-```
-
-We can use the function `enricher` to test for over-representation of any set of genes of the Hallmark collection. We have to include the "universe", i.e. the full list of background, non significant genes, against which to test for differences in proportions:
-
-```{r}
-#| output: false
-tum_vs_norm_enrich <- clusterProfiler::enricher(gene = tum_down_genes,
-                                                universe = rownames(proB),
-                                                pAdjustMethod = "BH",
-                                                pvalueCutoff  = 0.05,
-                                                qvalueCutoff  = 0.05,
-                                                TERM2GENE = gmt[,c("gs_name", "gene_symbol")])
-```
-
-When using the genes down-regulated in tumor, among the over-represented Hallmark gene sets, we have `HALLMARK_G2M_CHECKPOINT`, which includes genes involved in the G2/M checkpoint in the progression through the cell division cycle.
-
-```{r}
-#| eval: false
-View(tum_vs_norm_enrich@result[tum_vs_norm_enrich@result$p.adjust < 0.05,])
-```
-
-```{r}
-#| echo: false
-
-tum_vs_norm_enrich@result[tum_vs_norm_enrich@result$p.adjust < 0.05, 1:7] |> 
-  head() |> 
-  knitr::kable()
-
-```
 
 ### Clear environment
 

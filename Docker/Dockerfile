@@ -1,4 +1,4 @@
-FROM rocker/rstudio:4.3.2
+FROM rocker/rstudio:4.5
 
 # Script for to set up multiple users
 # COPY batch_user_creation.sh /rocker_scripts/experimental/batch_user_creation.sh
@@ -20,9 +20,7 @@ tree \
 libcairo2-dev \
 libxt-dev
 
-COPY install_packages.R ./
+COPY renv.lock ./
 
-RUN Rscript install_packages.R
-
-# add cellranger to PATH
-# check installation Seurat
+RUN Rscript -e 'install.packages("renv")'
+RUN Rscript -e 'renv::restore()'

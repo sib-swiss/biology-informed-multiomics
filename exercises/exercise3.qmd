@@ -82,23 +82,6 @@ Use the following code to read the data files in R, and create a combined Seurat
 
 
 ```{r}
-library(Seurat)
-# vector of paths to all sample directories
-datadirs <- list.files(path = "data", full.names = TRUE)
-
-# get the sample names
-# replace underscores with hyphen to correctly extract sample names later on
-names(datadirs) <- basename(datadirs) |> gsub("_", "-", x = _) 
-
-# for now, we only take two samples per condition
-datadirs <- datadirs[c("HD1", "HD2", "P1", "P2")]
-
-# create a large sparse matrix from all count data
-sparse_matrix <- Seurat::Read10X(data.dir = datadirs)
-
-# create a seurat object from sparse matrix
-seu <- Seurat::CreateSeuratObject(counts = sparse_matrix,
-                                  project = "InterferonStudy")
 ```
 
 
