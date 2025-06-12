@@ -7,18 +7,18 @@ FROM rocker/rstudio:4.5
 
 RUN sudo apt-get update
 
-RUN sudo apt-get install -y \
-libxt6 \
-libgl1-mesa-glx \
-libcurl4-openssl-dev \
-libglpk-dev \
-libxml2-dev \
-libproj-dev \
-libudunits2-dev \
-libgdal-dev \
-tree \
-libcairo2-dev \
-libxt-dev
+RUN sudo apt-get update && sudo apt-get install -y \
+    libxt6 \
+    libgl1 \
+    libcurl4-openssl-dev \
+    libglpk-dev \
+    libxml2-dev \
+    libproj-dev \
+    libudunits2-dev \
+    libgdal-dev \
+    tree \
+    libcairo2-dev \
+    libxt-dev
 
 COPY renv.lock ./
 
