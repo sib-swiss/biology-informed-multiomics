@@ -40,7 +40,7 @@ website:
           
     right:
       - icon: github
-        href: https://github.com/sib-swiss/biology-informed-multiomics
+        href: https://github.com/sib-swiss/biology-informed-multiomics-training
         aria-label: GitHub
   sidebar:
     logo: assets/SIB_LogoQ_GBv.svg

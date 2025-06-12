@@ -18,7 +18,7 @@ title: "Biology-informed Multiomics Data Integration and Visualization"
 
 ## License & copyright
 
-**License:** [CC BY 4.0](https://github.com/sib-swiss/biology-informed-multiomics/blob/master/LICENSE.md)
+**License:** [CC BY 4.0](https://github.com/sib-swiss/biology-informed-multiomics-training/blob/master/LICENSE.md)
 
 **Copyright:** [SIB Swiss Institute of Bioinformatics](https://www.sib.swiss/)
 

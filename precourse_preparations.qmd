@@ -15,4 +15,4 @@ Attendees should have a Wi-Fi enabled computer. An **online R and RStudio enviro
 
 - [R](https://cran.r-project.org/) version > 4.2. 
 - Latest RStudio version, the [free version](https://rstudio.com/products/rstudio/download/) is perfectly fine.
-- The R packages necessary for the course. Find the `renv`` to install them [here](https://github.com/sib-swiss/biology-informed-multiomics/blob/master/renv.lock). 
+- The R packages necessary for the course. Find the `renv`` to install them [here](https://github.com/sib-swiss/biology-informed-multiomics-training/blob/master/renv.lock). 
