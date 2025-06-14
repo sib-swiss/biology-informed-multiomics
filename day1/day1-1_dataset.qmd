@@ -1,0 +1,262 @@
+---
+title: "Exercise 1"
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+# Datasets, `SummarizedExperiment`, and `GRanges`
+
+## Learning Outcomes
+
+By the end of this notebook, you will be able to:
+
+- Understand the structure of `SummarizedExperiment` and `GRanges` objects in R.
+- Access and manipulate metadata and assays within `SummarizedExperiment`.
+- Visualize and subset genomic intervals using `GRanges`.
+- Recognize how even RNA expression data can be stored as genomic ranges.
+
+::: {.callout-note}
+**Note:** Genomic data types like RNA-seq are often stored as `SummarizedExperiment` or `GRanges`, which are efficient for multi-omics integration.
+:::
+
+# Dataset for the course
+In this course, we work with **multi-omics datasets** derived from the developing **mouse neural tube** at two developmental stages: **E11.5** and **E15.5**. These stages represent key transitions in central nervous system development. These datasets are downloaded and processed from the ENCODE project: [Mouse Development Matrix](https://www.encodeproject.org/mouse-development-matrix/?type=Experiment&status=released&related_series.@type=OrganismDevelopmentSeries&replicates.library.biosample.organism.scientific_name=Mus+musculus#neural_tube). For the sake of time and efficient computational usage, datasets are analyzed for only chromosomes 1 and 2.
+
+The following chromatin and transcriptional profiling datasets are included, each with **two biological replicates per time point**:
+
+| Assay        | Description                                                 | E11.5 | E15.5 |
+| ------------ | ----------------------------------------------------------- | ----- | ----- |
+| **ATAC-seq** | Chromatin accessibility profiling                           | 2     | 2     |
+| **H3K4me3**  | Histone mark at active promoters                            | 2     | 2     |
+| **H3K4me1**  | Histone mark at enhancers and poised regulatory elements    | 2     | 2     |
+| **H3K27me3** | Repressive histone modification (Polycomb repression)       | 2     | 2     |
+| **H3K27ac**  | Active enhancer and promoter histone mark                   | 2     | 2     |
+| **RNA-seq**  | Gene expression quantification via transcriptome sequencing | 2     | 2     |
+
+All datasets are preprocessed and stored in **`SummarizedExperiment` (SE)** objects:
+
+* **Assays** contain count matrices (e.g., raw counts, logCPM).
+* **RowRanges** describe genomic coordinates (`GRanges`) for each feature (gene, peak, region).
+* **ColData** holds metadata for each sample (e.g., stage, replicate).
+
+The use of SE objects enables consistent handling of multi-omics data, facilitates downstream integration, and supports interoperability with Bioconductor tools.
+
+* `SummarizedExperiment` enables structured storage of high-dimensional omics data and metadata.
+* `GRanges` makes it easy to manipulate and visualize genomic intervals across datasets.
+* Most analyses — from clustering to visualization — can be performed directly on these containers.
+
+
+## Download and Extract Data
+
+```{r, eval=FALSE}
+# Create a new directory
+dir.create("data")
+
+# Set download limit higher
+options(timeout=1000)
+
+# Download file
+download.file(
+  url = "https://biology-informed-multiomics.s3.eu-central-1.amazonaws.com/biology-informed-multiomics.tar",
+  destfile = "data/data.tar"
+)
+
+# Unzip file
+untar(tarfile = "data/data.tar", exdir = "data")
+
+# Remove tar file
+file.remove("data/data.tar")
+```
+
+## Load Libraries
+
+```{r}
+#| warning: false
+#| message: false
+library(ComplexHeatmap)
+library(EnrichedHeatmap)
+library(SummarizedExperiment)
+library(ggplot2)
+library(gUtils)
+library(rtracklayer)
+library(tidyr)
+```
+
+## Load SummarizedExperiment Objects
+
+```{r}
+rna <- readRDS("data/rna_se.rds")
+atac <- readRDS("data/atac_se.rds")
+h3k4me3 <- readRDS("data/h3k4me3_se.rds")
+h3k4me1 <- readRDS("data/h3k4me1_se.rds")
+h3k27me3 <- readRDS("data/h3k27me3_se.rds")
+h3k27ac <- readRDS("data/h3k27ac_se.rds")
+```
+
+---
+
+## 🧪 Exercise 1: Working with `SummarizedExperiment` (SE)
+
+### 1. Inspect the RNA SE Object
+
+```{r}
+rna
+```
+
+### 2. Access `rowRanges`, `colData`, and `assays`
+
+```{r}
+rowRanges(rna)[1:5]
+colData(rna)
+assay(rna)[1:5,]
+assays(rna)
+```
+
+### 3. Boxplot of Expression for a Few Genes
+
+```{r}
+df <- as.data.frame(t(assay(rna)[1:5, ]))
+df$sample <- rownames(df)
+df_long <- pivot_longer(df, -sample, names_to = "gene", values_to = "expression")
+
+ggplot(df_long, aes(x = gene, y = expression)) +
+  geom_boxplot(aes(fill = gene)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  labs(title = "Expression Distribution of Selected Genes",
+       y = "Expression", x = "Genes") +
+  scale_fill_brewer(palette = "Set2")
+```
+
+## Question 1
+
+**Please make a `boxplot` of samples, before and after normalization.**
+
+_Hint:_ Check `assays` of `rna` object. Raw counts should be converted to `log2` to make a comparison.
+
+::: {.callout-tip collapse="true"}
+
+### Answer
+
+```{r}
+# Extract assays
+raw_counts <- assay(rna, "counts")
+logcpm <- assay(rna, "logCPM")
+
+# Convert to long data frames for ggplot
+df_raw <- as.data.frame(raw_counts)
+df_raw$gene <- rownames(df_raw)
+df_raw_long <- pivot_longer(df_raw, -gene, names_to = "sample", values_to = "expression")
+df_raw_long$assay <- "Raw Counts"
+df_raw_long$expression <- log2(df_raw_long$expression + 1)
+
+df_log <- as.data.frame(logcpm)
+df_log$gene <- rownames(df_log)
+df_log_long <- pivot_longer(df_log, -gene, names_to = "sample", values_to = "expression")
+df_log_long$assay <- "logCPM"
+
+# Combine both
+df_combined <- rbind(df_raw_long, df_log_long)
+
+# Set factor for names to make Raw counts to be plotted first
+df_combined$assay <- factor(df_combined$assay, levels = unique(df_combined$assay))
+
+# Plot boxplot across samples
+ggplot(df_combined, aes(x = sample, y = expression, fill = assay)) +
+  geom_boxplot(outlier.size = 0.5, lwd = 0.3) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(~ assay, scales = "free_y") +
+  labs(title = "Sample-wise Expression: Raw vs Normalized",
+       x = "Samples", y = "Expression") +
+  scale_fill_brewer(palette = "Set2")
+
+```
+
+:::
+
+## Question 2
+
+**Make a new `SummarizedExperiment` object by subsetting `rna`. Take only first 2 samples and first 10 genes. Check the `assays`, row and column metadata.**
+
+::: {.callout-tip collapse="true"}
+
+```{r}
+rna_subset <- rna[1:10, 1:2]
+rna_subset
+
+assays(rna_subset)
+assay(rna_subset, "counts")
+assay(rna_subset, "logCPM")
+
+colData(rna_subset)
+rowData(rna_subset)
+rowRanges(rna_subset)
+```
+
+:::
+
+
+## Question 3
+
+**Try to run all other commands from the following image on other `SE` objects as well**
+
+![](../assets/images/se.svg)
+
+---
+
+## 🧪 Exercise 2: Working with `GRanges`
+
+### 1. Extract and Inspect `GRanges` from ATAC-seq
+
+```{r}
+gr <- rowRanges(atac)
+gr
+```
+
+### 2. Subset Regions on chr1 with Width > 1000 bp
+
+```{r}
+subset_gr <- gr[seqnames(gr) == "chr1" & width(gr) > 1000]
+subset_gr
+```
+
+### 3. Plot Width Distribution of Genomic Ranges
+
+```{r}
+df_gr <- as.data.frame(gr)
+
+ggplot(df_gr, aes(x = width)) +
+  geom_histogram(bins = 50, fill = "#3366cc", color = "white") +
+  theme_minimal() +
+  labs(title = "Width Distribution of Genomic Ranges",
+       x = "Width (bp)", y = "Count")
+```
+
+---
+
+## 🔎 Bonus: Heatmap of H3K27ac Signal
+
+```{r}
+mat <- assay(h3k27ac)
+
+Heatmap(mat[1:50, ],
+        name = "H3K27ac",
+        show_row_names = FALSE,
+        show_column_names = TRUE,
+        cluster_rows = TRUE,
+        cluster_columns = TRUE)
+```
+
+
+## Question 4
+
+**Try to run all other commands from the following image on other `GRanges` from `SE` objects as well**
+
+![](../assets/images/gr.png)
+
+
+::: {.callout-important}
+Understanding how different omics layers are represented in `SE` and `GRanges` objects is essential for multi-omics integration, visualization, and downstream analysis.
+:::

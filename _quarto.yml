@@ -22,7 +22,7 @@ website:
       - href: course_schedule.qmd
       - text: "day 1"
         menu:
-          - href: "day1/day1_exercise_1.qmd"
+          - href: "day1/day1-1_dataset.qmd"
           - href: "day1/day1_exercise_2.qmd"
           - href: "day1/day1_exercise_3.qmd"
       - text: "day 2"
@@ -31,13 +31,6 @@ website:
           - href: "day2/day2_exercise_2.qmd"
           - href: "day2/day2_exercise_3.qmd"
           - href: "day2/day2-4_clustering.qmd"
-      - text: "exercises"
-        menu:
-          - href: "exercises/exercise1.qmd"
-          - href: "exercises/exercise2.qmd"
-          - href: "exercises/exercise3.qmd"
-          - href: "exercises/exercise4.qmd"
-          
     right:
       - icon: github
         href: https://github.com/sib-swiss/biology-informed-multiomics-training
