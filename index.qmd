@@ -3,7 +3,7 @@ title: "Biology-informed Multiomics Data Integration and Visualization"
 ---
 
 <figure>
-    <img src="assets/images/course_logo.png" width="800"/>
+    <img src="assets/images/course_logo.png" width="780"/>
 </figure>
 
 ## Teachers
