@@ -18,7 +18,7 @@
     "href": "precourse_preparations.html#software",
     "title": "Precourse preparations",
     "section": "Software",
-    "text": "Software\nAttendees should have a Wi-Fi enabled computer. An online R and RStudio environment will be provided. In order to access that environment your computer needs to be able to access http websites (not https). You can check this by browsing to http://www.httpforever.com. However, in case you wish to perform the practical exercises on your own computer, please take a moment to install the following before the course:\n\nR version &gt; 4.2.\nLatest RStudio version, the free version is perfectly fine.\nThe R packages necessary for the course. Find the `renv`` to install them here."
+    "text": "Software\nAttendees should have a Wi-Fi enabled computer. An online R and RStudio environment will be provided. In order to access that environment your computer needs to be able to access http websites (not https). You can check this by browsing to http://www.httpforever.com. However, in case you wish to perform the practical exercises on your own computer, please take a moment to install the following before the course:\n\nR version &gt; 4.2.\nLatest RStudio version, the free version is perfectly fine.\nThe R packages necessary for the course. Find the renv to install them here."
   },
   {
     "objectID": "exercises/exercise4.html",
