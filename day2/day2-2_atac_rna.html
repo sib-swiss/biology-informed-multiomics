@@ -176,8 +176,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Exercise 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../day2/day2-4_enrichment_analysis.md">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../day2/day2-4_enrichment_analysis.docx">
+ <span class="dropdown-text">Exercise 7</span></a>
   </li>  
     </ul>
 </li>
@@ -355,13 +355,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">eh_11h</span> <span class="op">&lt;-</span> <span class="fu">make_EH</span><span class="op">(</span>norm_mat <span class="op">=</span> <span class="va">mat_ATAC</span><span class="op">$</span><span class="va">ATAC_11half</span>, hm_name <span class="op">=</span> <span class="st">"AS-E11.5"</span>, col_fill <span class="op">=</span> <span class="st">"#ffcccc"</span><span class="op">)</span></span>
 <span><span class="va">eh_15h</span> <span class="op">&lt;-</span> <span class="fu">make_EH</span><span class="op">(</span>norm_mat <span class="op">=</span> <span class="va">mat_ATAC</span><span class="op">$</span><span class="va">ATAC_15half</span>, hm_name <span class="op">=</span> <span class="st">"AS-E15.5"</span>, col_fill <span class="op">=</span> <span class="st">"#e6fff2"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">row_order_eh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/row_order-dispatch.html">row_order</a></span><span class="op">(</span><span class="va">eh_11h</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The heatmap has not been initialized. You might have different results
-if you repeatedly execute this function, e.g. when row_km/column_km was
-set. It is more suggested to do as `ht = draw(ht); row_order(ht)`.</code></pre>
-</div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">anno_hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span></span>
+<span><span class="va">row_order_eh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/row_order-dispatch.html">row_order</a></span><span class="op">(</span><span class="va">eh_11h</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">anno_hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span></span>
 <span>  mat <span class="op">=</span> <span class="va">split_anno</span>,</span>
 <span>  col <span class="op">=</span> <span class="va">cols_an</span>, </span>
 <span>  name <span class="op">=</span> <span class="st">"Annotation"</span>,</span>
@@ -378,23 +374,7 @@ set. It is more suggested to do as `ht = draw(ht); row_order(ht)`.</code></pre>
 mapping. If this is not what you want, slightly change the number of
 colors, e.g. by adding one more color or removing a color.</code></pre>
 </div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">anno_hm</span> <span class="op">+</span> <span class="va">eh_11h</span> <span class="op">+</span> <span class="va">eh_15h</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `legend_height` you specified is too small, use the default minimal
-height.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.</code></pre>
-</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">anno_hm</span> <span class="op">+</span> <span class="va">eh_11h</span> <span class="op">+</span> <span class="va">eh_15h</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day2-2_atac_rna_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
@@ -404,7 +384,7 @@ height.</code></pre>
 </div>
 </section><section id="rna" class="level3"><h3 class="anchored" data-anchor-id="rna">RNA</h3>
 <div class="cell">
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rna_hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">mat_RNA</span>, </span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rna_hm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">mat_RNA</span>, </span>
 <span>        name <span class="op">=</span> <span class="st">"RNA"</span>, </span>
 <span>        cluster_columns <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -430,14 +410,6 @@ height.</code></pre>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">rna_hm</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day2-2_atac_rna_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
@@ -447,27 +419,7 @@ height.</code></pre>
 </div>
 </section><section id="combine-plots" class="level3"><h3 class="anchored" data-anchor-id="combine-plots">Combine plots</h3>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">anno_hm</span> <span class="op">+</span> <span class="va">eh_11h</span> <span class="op">+</span> <span class="va">eh_15h</span> <span class="op">+</span> <span class="va">rna_hm</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.</code></pre>
-</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">anno_hm</span> <span class="op">+</span> <span class="va">eh_11h</span> <span class="op">+</span> <span class="va">eh_15h</span> <span class="op">+</span> <span class="va">rna_hm</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day2-2_atac_rna_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
@@ -491,34 +443,14 @@ Answer
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">split_anno</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">split_anno</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Active"      "Inc. Acc."   "Dec. Acc."   "Incongruent" "Silent"     
 [6] "Repressed"  </code></pre>
 </div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">split_anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">split_anno</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">split_anno</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">6</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">split_anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">split_anno</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">split_anno</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">6</span>,<span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/draw-dispatch.html">draw</a></span><span class="op">(</span><span class="va">anno_hm</span> <span class="op">+</span> <span class="va">eh_11h</span> <span class="op">+</span> <span class="va">eh_15h</span> <span class="op">+</span> <span class="va">rna_hm</span>, split <span class="op">=</span> <span class="va">split_anno</span>, merge_legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.
-Warning: `legend_height` you specified is too small, use the default minimal
-height.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day2-2_atac_rna_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
@@ -541,7 +473,7 @@ Important
 <div class="callout-body-container callout-body">
 <p>To make the plots a bit prettier, you can run these codes before makeing the plot. You only need to run these once while you are in an <code>R</code> session, not before making every plot.</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ht_opt</span><span class="op">$</span><span class="va">TITLE_PADDING</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"mm"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ht_opt</span><span class="op">$</span><span class="va">TITLE_PADDING</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"mm"</span><span class="op">)</span></span>
 <span><span class="va">ht_opt</span><span class="op">$</span><span class="va">legend_gap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">3</span>, <span class="st">"mm"</span><span class="op">)</span></span>
 <span><span class="va">ht_opt</span><span class="op">$</span><span class="va">legend_grid_height</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span></span>
 <span><span class="va">ht_opt</span><span class="op">$</span><span class="va">legend_grid_width</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span></span>
