@@ -200,14 +200,14 @@
     "href": "course_schedule.html#day-1",
     "title": "Course schedule",
     "section": "Day 1",
-    "text": "Day 1\n\n\n\nblock\nstart\nend\npresentation\nexercise\n\n\n\n\nIntroduction\n9:00 AM\n9:30 AM\nSlides\n\n\n\nBiological introduction\n9:30 AM\n10:30 AM\nSlides\n\n\n\nBREAK\n10:30 AM\n11:00 AM\nBREAK\n\n\n\nDataset and data structure 1\n11:00 AM\n12:00 PM\nSlides\nExercise 1\n\n\nLUNCH\n12:00 PM\n1:00 PM\nLUNCH\n\n\n\nDataset and data structure 2\n1:00 PM\n2:00 PM\n\nExercise 1\n\n\nNormalization and Visualization 1\n2:00 PM\n3:00 PM\nSlides\nExercise 2\n\n\nBREAK\n3:00 PM\n3:30 PM\nBREAK\n\n\n\nNormalization and Visualization 2\n3:30 PM\n4:45 PM\n\nExercise 3"
+    "text": "Day 1\n\n\n\nblock\nstart\nend\npresentation\nexercise\n\n\n\n\nIntroduction\n9:00 AM\n9:30 AM\nSlides\n\n\n\nBiological introduction\n9:30 AM\n10:30 AM\nLecture 1\n\n\n\nBREAK\n10:30 AM\n11:00 AM\n\n\n\n\nDataset and data structure 1\n11:00 AM\n12:00 PM\nLecture 2\nExercise 1\n\n\nLUNCH\n12:00 PM\n1:00 PM\n\n\n\n\nDataset and data structure 2\n1:00 PM\n2:00 PM\n\nExercise 1\n\n\nNormalization and Visualization 1\n2:00 PM\n3:00 PM\nLecture 3\nExercise 2\n\n\nBREAK\n3:00 PM\n3:30 PM\n\n\n\n\nNormalization and Visualization 2\n3:30 PM\n4:45 PM\n\nExercise 3"
   },
   {
     "objectID": "course_schedule.html#day-2",
     "href": "course_schedule.html#day-2",
     "title": "Course schedule",
     "section": "Day 2",
-    "text": "Day 2\n\n\n\nblock\nstart\nend\nsubject\nexercise\n\n\n\n\nRecap from Day 1\n9:00 AM\n9:15 AM\n\n\n\n\nData overlap matrix\n9:15 AM\n10:30 AM\nSlides\nExercise 4\n\n\nBREAK\n10:30 AM\n11:00 AM\nBREAK\n\n\n\nATAC-seq and RNA-seq plot\n11:00 AM\n12:00 PM\nSlides\nExercise 5\n\n\nLUNCH\n12:00 PM\n1:00 PM\nLUNCH\n\n\n\nMulti-omics data visualization\n1:00 PM\n3:00 PM\nSlides\nExercise 6\n\n\nBREAK\n3:00 PM\n3:30 PM\nBREAK\n\n\n\nFunctional analysis\n3:30 PM\n5:00 PM\nSlides\nExercise 7\n\n\nPost-course info\n5:00 PM\n5:10 PM\nSlides"
+    "text": "Day 2\n\n\n\nblock\nstart\nend\nsubject\nexercise\n\n\n\n\nRecap from Day 1\n9:00 AM\n9:15 AM\n\n\n\n\nData overlap matrix\n9:15 AM\n10:30 AM\nLecture 4\nExercise 4\n\n\nBREAK\n10:30 AM\n11:00 AM\n\n\n\n\nATAC-seq and RNA-seq plot\n11:00 AM\n12:00 PM\nLecture 5\nExercise 5\n\n\nLUNCH\n12:00 PM\n1:00 PM\n\n\n\n\nMulti-omics data visualization\n1:00 PM\n3:00 PM\nLecture 6\nExercise 6\n\n\nBREAK\n3:00 PM\n3:30 PM\n\n\n\n\nFunctional analysis\n3:30 PM\n5:00 PM\nLecture 7\nExercise 7\n\n\nPost-course info\n5:00 PM\n5:10 PM\nSlides"
   },
   {
     "objectID": "about.html",
