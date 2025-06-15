@@ -30,7 +30,7 @@ website:
           - href: "day2/day2-1_overlap_matrix.qmd"
           - href: "day2/day2-2_atac_rna.qmd"
           - href: "day2/day2-3_multiomics.qmd"
-          - href: "day2/day2-4_enrichment_analysis.md"
+          - href: "day2/day2-4_enrichment_analysis.qmd"
     right:
       - icon: github
         href: https://github.com/sib-swiss/biology-informed-multiomics-training
