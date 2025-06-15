@@ -251,7 +251,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header><section id="chip-and-rna-sequencing-data-plots" class="level1"><h1>ChIP and RNA sequencing data plots</h1>
 <section id="learning-objectives" class="level2"><h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
-</section><section id="load-libraries" class="level2"><h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
+<p>By the end of this exercise, you will be able to:</p>
+<ul>
+<li>Load and explore <code>SummarizedExperiment</code> objects for ChIP-seq and RNA-seq data.</li>
+<li>Visualize ChIP-seq signal enrichment across genomic regions using the <code>EnrichedHeatmap</code> package.</li>
+<li>Generate and interpret RNA-seq expression heatmaps using the <code>ComplexHeatmap</code> package.</li>
+<li>Transform RNA-seq data to highlight differential expression using log fold-change.</li>
+<li>Annotate heatmaps with sample metadata to enhance interpretability.</li>
+<li>Split and visualize RNA-seq data based on gene regulation status (up- or down-regulated).</li>
+<li>Compare and reflect on the similarities and differences in visualization techniques between ChIP-seq and RNA-seq data.</li>
+</ul></section><section id="load-libraries" class="level2"><h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/EnrichedHeatmap">EnrichedHeatmap</a></span><span class="op">)</span></span>
@@ -281,6 +290,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>        cluster_columns <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_row_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
@@ -290,17 +302,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="changing-visualization-to-fold-change" class="level3"><h3 class="anchored" data-anchor-id="changing-visualization-to-fold-change">Changing visualization to fold change</h3>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowMeans.html">rowMeans</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowMeans.html">rowMeans</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"11half"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                              value <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">counts</span>, </span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">counts</span>, </span>
 <span>        name <span class="op">=</span> <span class="st">"RNA"</span>, </span>
 <span>        cluster_columns <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_row_names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
@@ -311,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It is now more clear, which genes are up-regulated and which are down-regulated.</p>
 </section><section id="adding-colum-annotations" class="level3"><h3 class="anchored" data-anchor-id="adding-colum-annotations">Adding colum annotations</h3>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">rna</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">rna</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 4 rows and 2 columns
                                  sample    group
@@ -324,7 +339,7 @@ RNA_15half_2.tsv.gz RNA_15half_2.tsv.gz   15half</code></pre>
 </div>
 <p>We can add groups information to the heatmap</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">counts</span>, </span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">Heatmap</a></span><span class="op">(</span>matrix <span class="op">=</span> <span class="va">counts</span>, </span>
 <span>        name <span class="op">=</span> <span class="st">"RNA"</span>, </span>
 <span>        cluster_columns <span class="op">=</span> <span class="cn">FALSE</span>, </span>
 <span>        show_row_names <span class="op">=</span> <span class="cn">FALSE</span>, </span>
@@ -337,6 +352,9 @@ RNA_15half_2.tsv.gz RNA_15half_2.tsv.gz   15half</code></pre>
 <span>            title <span class="op">=</span> <span class="st">"RNA"</span></span>
 <span>        <span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
@@ -359,7 +377,7 @@ Tip
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">logFC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">rna</span><span class="op">)</span><span class="op">[</span>,<span class="st">"logFC"</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">logFC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">rna</span><span class="op">)</span><span class="op">[</span>,<span class="st">"logFC"</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">rna</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">logFC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">logFC</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="st">"Up regulated"</span>, <span class="st">"Down regulated"</span><span class="op">)</span></span>
@@ -378,6 +396,9 @@ Tip
 <span>        <span class="op">)</span>,</span>
 <span>        row_split <span class="op">=</span> <span class="va">logFC</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
