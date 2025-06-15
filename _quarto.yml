@@ -27,10 +27,10 @@ website:
           - href: "day1/day1-3_chip_rna.qmd"
       - text: "day 2"
         menu: 
-          - href: "day2/day2_exercise_1.qmd"
-          - href: "day2/day2_exercise_2.qmd"
-          - href: "day2/day2_exercise_3.qmd"
-          - href: "day2/day2-4_clustering.qmd"
+          - href: "day2/day2-1_overlap_matrix.qmd"
+          - href: "day2/day2-2_atac_rna.qmd"
+          - href: "day2/day2-3_multiomics.qmd"
+          - href: "day2/day2-4_enrichment_analysis.md"
     right:
       - icon: github
         href: https://github.com/sib-swiss/biology-informed-multiomics-training

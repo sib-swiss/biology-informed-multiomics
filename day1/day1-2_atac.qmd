@@ -5,7 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Enriched Heapmaps and identification of regions with different activities
+# Enriched Heatmaps and identification of regions with different activities
 
 ## Learning Objectives
 
@@ -17,6 +17,9 @@ editor_options:
 
 
 ## Load Libraries
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE) 
+```
 
 ```{r}
 #| warning: false
