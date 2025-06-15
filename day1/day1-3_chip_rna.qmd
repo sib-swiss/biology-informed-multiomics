@@ -24,7 +24,7 @@ library(circlize)
 
 
 ## ChIP-seq SE object
-Here we load the `SummarizedExperiment` for the ATAC-seq data
+Here we load the `SummarizedExperiment` for the ChIP-seq data
 ```{r}
 h3k4me3 <- readRDS("data/h3k4me3_se.rds")
 h3k4me1 <- readRDS("data/h3k4me1_se.rds")

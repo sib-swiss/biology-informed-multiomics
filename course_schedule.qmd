@@ -8,27 +8,28 @@ title: "Course schedule"
 
 ## Day 1
 
-| block   	| start    	| end      	| presentation                        	|
-|---------	|----------	|----------	|--------------------------------	|
-| Introduction 	| 9:00 AM 	| 9:30 AM 	| []() |
-| Biological introduction	| 9:30 AM  	| 10:30 AM  	| []() |
-| BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
-| Dataset and data structure	1 | 11:00 AM	| 12:00 PM	| []() |
-| LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |
-| Dataset and data structure	2 | 1:00 PM	| 2:00 PM	| [Dataset]() |
-| Normalization and Visualization 1 | 2:00 PM	| 3:00 PM	| [Dataset]() |
-| BREAK	| 3:00 PM	|  3:30 PM	| BREAK |
-| Normalization and Visualization 2 | 3:30 PM	| 4:45 PM	| [Dataset]() |
+| block   	| start    	| end      	| presentation                        	| exercise                        	|
+|---------	|----------	|----------	|--------------------------------	|--------------------------------	|
+| Introduction 	| 9:00 AM 	| 9:30 AM 	| [Slides](assets/pdf/01_introduction.pdf) | |
+| Biological introduction	| 9:30 AM  	| 10:30 AM  	| [Slides](assets/pdf/02_introduction_multiomics.pdf) | |
+| BREAK	| 10:30 AM	|  11:00 AM	| BREAK | |
+| Dataset and data structure	1 | 11:00 AM	| 12:00 PM	| [Slides](assets/pdf/03_data_structure.pdf) | [Exercise 1](https://sib-swiss.github.io/biology-informed-multiomics-training/day1/day1-1_dataset.html) |
+| LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH | |
+| Dataset and data structure	2 | 1:00 PM	| 2:00 PM	| | [Exercise 1](https://sib-swiss.github.io/biology-informed-multiomics-training/day1/day1-1_dataset.html) |
+| Normalization and Visualization 1 | 2:00 PM	| 3:00 PM	| [Slides](assets/pdf/04_ normalization.pdf) | [Exercise 2](https://sib-swiss.github.io/biology-informed-multiomics-training/day1/day1-2_atac.html) |
+| BREAK	| 3:00 PM	|  3:30 PM	| BREAK | |
+| Normalization and Visualization 2 | 3:30 PM	| 4:45 PM	|  | [Exercise 3](https://sib-swiss.github.io/biology-informed-multiomics-training/day1/day1-3_chip_rna.html) |
 
 ## Day 2
 
-| block   	| start    	| end      	| subject                             	|
-|---------	|----------	|----------	|-------------------------------------	|
-| Recap from Day 1	| 9:00 AM 	| 9:15 AM 	| []() |
-| Data overlap matrix | 9:15 AM  	| 10:30 AM	| [Data overlap]() |
-| BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
-| ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| []() |
+| block   	| start    	| end      	| subject                             	| exercise                        	|
+|---------	|----------	|----------	|-------------------------------------	|--------------------------------	|
+| Recap from Day 1	| 9:00 AM 	| 9:15 AM 	|  | |
+| Data overlap matrix | 9:15 AM  	| 10:30 AM	| [Slides]() | [Exercise 4]() |
+| BREAK	| 10:30 AM	|  11:00 AM	| BREAK | |
+| ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| [Slides]() | [Exercise 5]() |
 | LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |
-| Multi-omics data visualization	| 1:00 PM	| 2:30 PM	| [Genomic regions]() |
-| BREAK	| 2:30 PM	|  3:00 PM	| BREAK |
-| Functional analysis	| 3:00 PM	| 5:00 PM	| [GO analysis of regions of interest]() |
+| Multi-omics data visualization	| 1:00 PM	| 3:00 PM	| [Slides]() | [Exercise 6]() |
+| BREAK	| 3:00 PM	|  3:30 PM	| BREAK | |
+| Functional analysis	| 3:30 PM	| 5:00 PM	| [Slides]() | [Exercise 7]() |
+| Post-course info	| 5:00 PM	| 5:10 PM	| [Slides]() | |
