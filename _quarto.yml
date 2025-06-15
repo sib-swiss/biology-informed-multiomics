@@ -24,7 +24,7 @@ website:
         menu:
           - href: "day1/day1-1_dataset.qmd"
           - href: "day1/day1-2_atac.qmd"
-          - href: "day1/day1_exercise_3.qmd"
+          - href: "day1/day1-3_chip_rna.qmd"
       - text: "day 2"
         menu: 
           - href: "day2/day2_exercise_1.qmd"

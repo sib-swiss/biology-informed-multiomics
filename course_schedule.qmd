@@ -13,19 +13,19 @@ title: "Course schedule"
 | Introduction 	| 9:00 AM 	| 9:30 AM 	| []() |
 | Biological introduction	| 9:30 AM  	| 10:30 AM  	| []() |
 | BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
-| Dataset and data structure 1	| 11:00 AM	| 12:00 PM	| []() |
+| Dataset and data structure	1 | 11:00 AM	| 12:00 PM	| []() |
 | LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |
-| Dataset and data structure 2	| 1:00 PM	| 2:00 PM	| [Dataset]() |
-| Data overlap matrix	1 | 2:00 PM	| 3:00 PM	| [Dataset]() |
+| Dataset and data structure	2 | 1:00 PM	| 2:00 PM	| [Dataset]() |
+| Normalization and Visualization 1 | 2:00 PM	| 3:00 PM	| [Dataset]() |
 | BREAK	| 3:00 PM	|  3:30 PM	| BREAK |
-| Data overlap matrix	2 | 3:30 PM	| 5:00 PM	| [Data overlap]() |
+| Normalization and Visualization 2 | 3:30 PM	| 4:45 PM	| [Dataset]() |
 
 ## Day 2
 
 | block   	| start    	| end      	| subject                             	|
 |---------	|----------	|----------	|-------------------------------------	|
 | Recap from Day 1	| 9:00 AM 	| 9:15 AM 	| []() |
-| Normalized data for plotting	| 9:15 AM  	| 10:30 AM  	| [Normalization of the data]() |
+| Data overlap matrix | 9:15 AM  	| 10:30 AM	| [Data overlap]() |
 | BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
 | ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| []() |
 | LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |

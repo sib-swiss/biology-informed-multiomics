@@ -97,15 +97,8 @@ mat_AS <- lapply(atac_bw, FUN = function(x) {
   )
 })
 
-normalizeToMatrix
+mat_AS
 ```
-
-Next, we save these results as `rds` objects.
-```{r}
-dir.create("data/output")
-save(mat_AS, file = "data/output/mat_atac.rds")
-```
-
 
 ## Enriched heatmap
 
@@ -129,7 +122,7 @@ EnrichedHeatmap(
   name = "E11.5",              # Name for the plot
   col = c("white", "red"),     # We change the colors for low to high values
   width = unit(4, "cm"),       # Width of the heatmap
-  height = unit(10, "cm")      # Height of the heatmap
+  height = unit(8, "cm")      # Height of the heatmap
 )
 ```
 
@@ -145,7 +138,7 @@ EnrichedHeatmap(
   name = "E11.5",
   col = col_fun,
   width = unit(4, "cm"),
-  height = unit(10, "cm")
+  height = unit(8, "cm")
 )
 ```
 
@@ -162,7 +155,7 @@ EnrichedHeatmap(
   name = "E11.5",
   col = col_fun,
   width = unit(4, "cm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   column_title = "E11.5",
   column_title_gp = gpar(fontsize = 10, fill = "#ffcccc"),
   axis_name = c("-1kb", "mid", "1kb"),  # We changed the axis names here
@@ -215,7 +208,7 @@ EnrichedHeatmap(
   row_split = split_change,
   col = col_fun,
   width = unit(4, "cm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   column_title = "E11.5",
   column_title_gp = gpar(fontsize = 10, fill = "#ffcccc"),
   axis_name = c("-1kb", "mid", "1kb"),
@@ -262,7 +255,7 @@ EnrichedHeatmap(
   row_split = split_rows,
   col = col_fun,
   width = unit(4, "cm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   column_title = hm_name,
   column_title_gp = gpar(fontsize = 10, fill = col_fill),
   axis_name = c("-1kb", "mid", "1kb"),
@@ -316,7 +309,7 @@ anno_hm <- Heatmap(
   show_row_names = FALSE, 
   show_column_names = FALSE, 
   width = unit(3, "mm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   row_order = row_order_eh,
   row_title_gp = gpar(fontsize = 0)
 )
@@ -348,7 +341,7 @@ anno_an <- Heatmap(
   show_row_names = FALSE, 
   show_column_names = FALSE, 
   width = unit(3, "mm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   row_order = row_order_eh,
   row_title_gp = gpar(fontsize = 0)
 )
@@ -382,7 +375,7 @@ anno_an_dir <- Heatmap(
   show_row_names = FALSE, 
   show_column_names = FALSE, 
   width = unit(3, "mm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   row_order = row_order_eh,
   row_title_gp = gpar(fontsize = 0)
 )
@@ -421,7 +414,7 @@ anno_an_df <- Heatmap(
   show_row_names = FALSE, 
   show_column_names = FALSE, 
   width = unit(3, "mm"),
-  height = unit(10, "cm"),
+  height = unit(8, "cm"),
   row_order = row_order_eh,
   row_title_gp = gpar(fontsize = 0)
 )
