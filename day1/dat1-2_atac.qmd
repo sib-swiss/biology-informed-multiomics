@@ -1,0 +1,435 @@
+---
+title: "Exercise 2"
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+# Enriched Heapmaps and identification of regions with different activities
+
+## Learning Objectives
+
+- By the end of this section, you will be able to:
+- Distinguish between when to use `Heatmap()` and `HeatmapAnnotation()`
+- Generate row split annotations for enriched heatmaps
+- Add multiple categorical annotations with separate color legends
+- Avoid common data handling errors in `heatmap` plotting
+
+
+## Load Libraries
+
+```{r}
+#| warning: false
+#| message: false
+library(SummarizedExperiment)
+library(EnrichedHeatmap)
+library(gUtils)
+library(rtracklayer)
+library(circlize)
+```
+
+
+## ATAC SE object
+Here we load the `SummarizedExperiment` for the ATAC-seq data
+```{r}
+atac <- readRDS("data/atac_se.rds")
+```
+
+
+## ATAC peaks info
+Each peak region represent the activity in a genomic region. These peaks are annotated for various features, including their genomic annotations and the results for differential accessibility analysis is also added there.
+```{r overlap-matrix-2, message=FALSE, warning=FALSE}
+rowRanges(atac)
+
+rd_atac <- rowRanges(atac)
+rd_atac <- rd_atac[abs(rd_atac$logFC) >= 0.5 & rd_atac$qvalue <= 0.1]
+colnames(elementMetadata(rd_atac)) <- paste("ATAC", colnames(elementMetadata(rd_atac)), sep = "_")
+```
+
+
+## Taking 1000 bp around the mid of ATAC-peaks
+Most of the peaks are around 1000 bp wide. We can check that
+```{r}
+median(lengths(rowRanges(atac)))
+```
+
+For plotting the data, we can hence consider 1000 bp around the **peak-mid**
+```{r}
+# Finding mid of all peaks
+mid_peaks <- gr.mid(rd_atac)
+
+# adding names to peaks to give them identity
+names(mid_peaks) <- paste("peak", 1:length(mid_peaks), sep = "_")
+```
+
+## Normalizing data for plotting
+`bigWig` files are compressed, indexed, binary format used for efficiently displaying continuous data, like genomic signal data, in genome browsers. Here, we read in ATAC-seq `bigWig` files, filters the data to specific chromosomes, normalizes signal intensity around genomic regions of interest (peak centers), and saves the resulting matrices for downstream visualization.
+
+```{r}
+atac_files <- list.files("data", pattern = "ATAC", full.names = TRUE)
+names(atac_files) <- gsub(pattern = "\\.bw", replacement = "", x = basename(atac_files))
+atac_bw <- lapply(atac_files, function(x){
+  a <- rtracklayer::import(x)
+  a <- a[seqnames(a) %in% c("chr1", "chr2")]
+  a
+})
+```
+
+`bigWig` files are represented as `GRanges`.
+
+```{r}
+atac_bw
+```
+
+
+Next, we calculate the normalized signals into the area of our interest. Please check `?normalizeToMatrix` for details of this function
+
+```{r}
+mat_AS <- lapply(atac_bw, FUN = function(x) {
+  normalizeToMatrix(x, mid_peaks,
+    extend = 1000,
+    value_column = "score",
+    include_target = TRUE,
+    mean_mode = "w0",
+    w = 20,
+    smooth = T,
+    background = 0
+  )
+})
+
+normalizeToMatrix
+```
+
+Next, we save these results as `rds` objects.
+```{r}
+dir.create("data/output")
+save(mat_AS, file = "data/output/mat_atac.rds")
+```
+
+
+## Enriched heatmap
+
+**Enriched heatmap** is a special type of heatmap which visualizes the enrichment of genomic signals over specific target regions.
+
+```{r}
+EnrichedHeatmap(mat = mat_AS$ATAC_11half, name = "E11.5") + 
+  EnrichedHeatmap(mat = mat_AS$ATAC_15half, name = "E15.5")
+```
+
+Joining 2 `EnrichedHeatmaps` is very easy with a `+` sign.
+
+## Changing aesthectics of Enriched heatmap
+
+Let's work on one data for now.
+
+### Changind color and size
+```{r}
+EnrichedHeatmap(
+  mat = mat_AS$ATAC_11half,    # normalized matrix
+  name = "E11.5",              # Name for the plot
+  col = c("white", "red"),     # We change the colors for low to high values
+  width = unit(4, "cm"),       # Width of the heatmap
+  height = unit(10, "cm")      # Height of the heatmap
+)
+```
+
+You may wonder why the color looks so light. The reason is in coverage values in ATAC, there exist some extreme values, which results in extreme value in `normalizedMatrix`.
+
+### Color based on quantile
+```{r}
+# Taking data between 1 and 99 percentile
+col_fun <- colorRamp2(quantile(mat_AS$ATAC_11half, c(0.01, 0.99)), c("white", "red"))
+
+EnrichedHeatmap(
+  mat = mat_AS$ATAC_11half,
+  name = "E11.5",
+  col = col_fun,
+  width = unit(4, "cm"),
+  height = unit(10, "cm")
+)
+```
+
+### Changing some other aesthetics
+```{r}
+# We first change the color legent of the plot to show only 3 values
+vmin <- as.numeric(quantile(mat_AS$ATAC_11half, c(0.01)))
+vmax <- as.numeric(quantile(mat_AS$ATAC_11half, c(0.99)))
+vmid <- (vmin + vmax) / 2
+legend_ticks <- c(vmin, vmid, vmax)
+
+EnrichedHeatmap(
+  mat = mat_AS$ATAC_11half,
+  name = "E11.5",
+  col = col_fun,
+  width = unit(4, "cm"),
+  height = unit(10, "cm"),
+  column_title = "E11.5",
+  column_title_gp = gpar(fontsize = 10, fill = "#ffcccc"),
+  axis_name = c("-1kb", "mid", "1kb"),  # We changed the axis names here
+ heatmap_legend_param = list(
+    at = legend_ticks,
+    labels = round(legend_ticks, digits = 1),
+    title_gp = gpar(fontsize = 8),
+    labels_gp = gpar(fontsize = 7)
+  ),
+  top_annotation = HeatmapAnnotation(
+    lines = anno_enriched(
+      height = unit(2, "cm"),
+      gp = gpar(
+        lwd = 0.7,
+        fontsize = 5
+      ),
+      axis_param = list(
+        side = "right",
+        facing = "inside",
+        gp = gpar(
+          fontsize = 7,
+          col = "black",
+          lwd = 0.4
+        )
+      )
+    )
+  )
+)
+```
+
+### Split the Enriched heatmap based on `logFC` values
+
+Although we see some signal here, but it might be a good idea to split the heatmap into the regions which gained and lost accessibility.
+
+```{r}
+split_change <- ifelse(mid_peaks$ATAC_logFC > 0, yes = "Increased accessibility", no = "Decreased accessibility")
+names(split_change) <- names(mid_peaks)
+
+head(split_change)
+
+# Define cluster colors
+cluster_colors <- c("Increased accessibility" = "red", "Decreased accessibility" = "blue")
+
+# Make sure split_change has levels matching the color names
+split_change <- factor(split_change, levels = names(cluster_colors))
+
+EnrichedHeatmap(
+  mat = mat_AS$ATAC_11half,
+  name = "E11.5",
+  row_split = split_change,
+  col = col_fun,
+  width = unit(4, "cm"),
+  height = unit(10, "cm"),
+  column_title = "E11.5",
+  column_title_gp = gpar(fontsize = 10, fill = "#ffcccc"),
+  axis_name = c("-1kb", "mid", "1kb"),
+  heatmap_legend_param = list(
+    at = legend_ticks,
+    labels = round(legend_ticks, digits = 1),
+    title_gp = gpar(fontsize = 8),
+    labels_gp = gpar(fontsize = 7)
+  ),
+  top_annotation = HeatmapAnnotation(
+    lines = anno_enriched(
+      gp = gpar(col = cluster_colors),
+      height = unit(2, "cm"),
+      axis_param = list(
+        side = "right",
+        facing = "inside",
+        gp = gpar(
+          fontsize = 7,
+          lwd = 0.4
+        )
+      )
+    )
+  )
+)
+```
+
+
+### Make a function to make this heatmap
+
+As you know we have at least 2 samples as of now. It will be a good idea to create a `function` to make this heatmap.
+
+```{r}
+make_EH <- function(norm_mat, heatmap_cols = c("white", "red"), split_rows = NULL, hm_name, col_fill = "#ffcccc"){
+  col_fun <- colorRamp2(quantile(norm_mat, c(0.01, 0.99)), heatmap_cols)  
+  
+  vmin <- as.numeric(quantile(norm_mat, c(0.01)))
+  vmax <- as.numeric(quantile(norm_mat, c(0.99)))
+  vmid <- (vmin + vmax) / 2
+  legend_ticks <- c(vmin, vmid, vmax)
+
+EnrichedHeatmap(
+  mat = norm_mat,
+  name = hm_name,
+  row_split = split_rows,
+  col = col_fun,
+  width = unit(4, "cm"),
+  height = unit(10, "cm"),
+  column_title = hm_name,
+  column_title_gp = gpar(fontsize = 10, fill = col_fill),
+  axis_name = c("-1kb", "mid", "1kb"),
+  heatmap_legend_param = list(
+    at = legend_ticks,
+    labels = round(legend_ticks, digits = 1),
+    title_gp = gpar(fontsize = 8),
+    labels_gp = gpar(fontsize = 7)
+  ),
+  top_annotation = HeatmapAnnotation(
+    lines = anno_enriched(
+      gp = gpar(col = cluster_colors),
+      height = unit(2, "cm"),
+      axis_param = list(
+        side = "right",
+        facing = "inside",
+        gp = gpar(
+          fontsize = 7,
+          lwd = 0.4
+        )
+      )
+    )
+  )
+)
+}
+```
+
+
+### Make Enriched Heatmaps for both ATAC samples
+```{r}
+eh_11h <- make_EH(norm_mat = mat_AS$ATAC_11half, split_rows = split_change, hm_name = "E11.5")
+eh_15h <- make_EH(norm_mat = mat_AS$ATAC_15half, split_rows = split_change, hm_name = "E15.5", col_fill = "#e6fff2")
+
+draw(eh_11h + eh_15h, merge_legend = TRUE)
+```
+
+## Another way to make annotations for split
+
+It is probably a good idea to represent clusters with colors, instead of text
+
+```{r}
+eh_11h <- make_EH(norm_mat = mat_AS$ATAC_11half, hm_name = "E11.5")
+eh_15h <- make_EH(norm_mat = mat_AS$ATAC_15half, hm_name = "E15.5", col_fill = "#e6fff2")
+
+row_order_eh <- row_order(eh_11h)
+
+anno_hm <- Heatmap(
+  split_change,
+  col = c("red", "blue"), 
+  name = "Change",
+  show_row_names = FALSE, 
+  show_column_names = FALSE, 
+  width = unit(3, "mm"),
+  height = unit(10, "cm"),
+  row_order = row_order_eh,
+  row_title_gp = gpar(fontsize = 0)
+)
+
+draw(anno_hm + eh_11h + eh_15h, split = split_change, merge_legend = TRUE)
+```
+
+## Question 1
+
+**Can you make split the Enriched Heatmap based on the annotations?**
+
+**_Hint:_** `mid_peaks$ATAC_anno` contain annotations for the regions. 
+
+:::{.callout-tip collapse="true"}
+
+### Answer
+```{r}
+split_anno <- mid_peaks$ATAC_anno
+names(split_anno) <- names(mid_peaks)
+
+head(split_anno)
+
+cols_an <- RColorBrewer::brewer.pal(n = length(unique(split_anno)), name = "Set1")
+
+anno_an <- Heatmap(
+  split_anno,
+  col = cols_an, 
+  name = "anno",
+  show_row_names = FALSE, 
+  show_column_names = FALSE, 
+  width = unit(3, "mm"),
+  height = unit(10, "cm"),
+  row_order = row_order_eh,
+  row_title_gp = gpar(fontsize = 0)
+)
+
+draw(anno_an + eh_11h + eh_15h, split = split_anno, merge_legend = TRUE)
+```
+
+:::
+
+## Question 2
+
+**Can you make split the Enriched Heatmap based on the annotations and change in direction?**
+
+**_Hint:_** `mid_peaks$ATAC_anno` contain annotations for the regions. `mid_peaks$ATAC_logFC` contain sign of change.
+
+:::{.callout-tip collapse="true"}
+
+### Answer
+```{r}
+split_anno_dir <- paste(mid_peaks$ATAC_anno, ifelse(mid_peaks$ATAC_logFC > 0, yes = "Inc", no = "Dec"))
+names(split_anno_dir) <- names(mid_peaks)
+
+head(split_anno_dir)
+
+cols_an <- RColorBrewer::brewer.pal(n = length(unique(split_anno_dir)), name = "Paired")
+
+anno_an_dir <- Heatmap(
+  split_anno_dir,
+  col = cols_an, 
+  name = "anno",
+  show_row_names = FALSE, 
+  show_column_names = FALSE, 
+  width = unit(3, "mm"),
+  height = unit(10, "cm"),
+  row_order = row_order_eh,
+  row_title_gp = gpar(fontsize = 0)
+)
+
+draw(anno_an_dir + eh_11h + eh_15h, split = split_anno_dir, merge_legend = TRUE)
+```
+:::
+
+## Question 3
+
+**Can you make split the Enriched Heatmap based on the annotations and change in direction with separate color bars for annotation and direction of change?**
+
+**_Hint:_** `mid_peaks$ATAC_anno` contain annotations for the regions. `mid_peaks$ATAC_logFC` contain sign of change.
+
+:::{.callout-tip collapse="true"}
+
+### Answer
+```{r}
+split_anno_df <- data.frame(
+  Annotation = mid_peaks$ATAC_anno,
+  Direction = ifelse(mid_peaks$ATAC_logFC > 0, yes = "Inc", no = "Dec")
+)
+
+head(split_anno_df)
+
+cols_an <- c("red", "blue", 
+             RColorBrewer::brewer.pal(n = length(unique(split_anno_df$Annotation)), name = "Set1")
+)
+
+names(cols_an) <- c(unique(split_anno_df$Direction), unique(split_anno_df$Annotation))
+
+anno_an_df <- Heatmap(
+  split_anno_df,
+  name = "anno",
+  col = cols_an,
+  show_row_names = FALSE, 
+  show_column_names = FALSE, 
+  width = unit(3, "mm"),
+  height = unit(10, "cm"),
+  row_order = row_order_eh,
+  row_title_gp = gpar(fontsize = 0)
+)
+
+draw(anno_an_df + eh_11h + eh_15h, split = split_anno_dir, merge_legend = TRUE)
+```
+:::
+
+:::{.callout-important}
+**`Heatmap` and `EnrichedHeatmap` serve different functions, however the plots can be combined effortlessly. This makes  the visualization of complex data easy**
+:::

@@ -75,12 +75,8 @@ file.remove("data/data.tar")
 #| warning: false
 #| message: false
 library(ComplexHeatmap)
-library(EnrichedHeatmap)
 library(SummarizedExperiment)
 library(ggplot2)
-library(gUtils)
-library(rtracklayer)
-library(tidyr)
 ```
 
 ## Load SummarizedExperiment Objects

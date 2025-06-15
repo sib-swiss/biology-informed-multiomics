@@ -23,7 +23,7 @@ website:
       - text: "day 1"
         menu:
           - href: "day1/day1-1_dataset.qmd"
-          - href: "day1/day1_exercise_2.qmd"
+          - href: "day1/day1-2_atac.qmd"
           - href: "day1/day1_exercise_3.qmd"
       - text: "day 2"
         menu: 

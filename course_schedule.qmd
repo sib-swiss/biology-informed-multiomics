@@ -13,11 +13,12 @@ title: "Course schedule"
 | Introduction 	| 9:00 AM 	| 9:30 AM 	| []() |
 | Biological introduction	| 9:30 AM  	| 10:30 AM  	| []() |
 | BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
-| Data analysis pipelines	| 11:00 AM	| 12:00 PM	| []() |
+| Dataset and data structure 1	| 11:00 AM	| 12:00 PM	| []() |
 | LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |
-| Data for the course	| 1:00 PM	| 2:30 PM	| [Dataset]() |
-| BREAK	| 2:30 PM	|  3:00 PM	| BREAK |
-| Data overlap matrix	| 3:00 PM	| 5:00 PM	| [Data overlap]() |
+| Dataset and data structure 2	| 1:00 PM	| 2:00 PM	| [Dataset]() |
+| Data overlap matrix	1 | 2:00 PM	| 3:00 PM	| [Dataset]() |
+| BREAK	| 3:00 PM	|  3:30 PM	| BREAK |
+| Data overlap matrix	2 | 3:30 PM	| 5:00 PM	| [Data overlap]() |
 
 ## Day 2
 
@@ -28,6 +29,6 @@ title: "Course schedule"
 | BREAK	| 10:30 AM	|  11:00 AM	| BREAK |
 | ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| []() |
 | LUNCH	| 12:00 PM	| 1:00 PM	| LUNCH |
-| Finding genomic regions of interest	| 1:00 PM	| 2:30 PM	| [Genomic regions]() |
+| Multi-omics data visualization	| 1:00 PM	| 2:30 PM	| [Genomic regions]() |
 | BREAK	| 2:30 PM	|  3:00 PM	| BREAK |
 | Functional analysis	| 3:00 PM	| 5:00 PM	| [GO analysis of regions of interest]() |
