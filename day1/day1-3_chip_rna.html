@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project 4 – Biology-informed Multiomics Data Integration and Visualization</title>
+<title>Exercise 3 – Biology-informed Multiomics Data Integration and Visualization</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Project 4</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Exercise 3</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,8 +235,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#available-data" id="toc-available-data" class="nav-link active" data-scroll-target="#available-data">Available data</a></li>
-  <li><a href="#tips" id="toc-tips" class="nav-link" data-scroll-target="#tips">Tips</a></li>
+  <li><a href="#chip-and-rna-sequencing-data-plots" id="toc-chip-and-rna-sequencing-data-plots" class="nav-link active" data-scroll-target="#chip-and-rna-sequencing-data-plots">ChIP and RNA sequencing data plots</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load Libraries</a></li>
+  <li><a href="#chip-seq-se-object" id="toc-chip-seq-se-object" class="nav-link" data-scroll-target="#chip-seq-se-object">ChIP-seq SE object</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#rna-seq-data" id="toc-rna-seq-data" class="nav-link" data-scroll-target="#rna-seq-data">RNA-seq data</a></li>
+  <li><a href="#heatmap-of-counts" id="toc-heatmap-of-counts" class="nav-link" data-scroll-target="#heatmap-of-counts">Heatmap of counts</a>
+  <ul class="collapse">
+  <li><a href="#changing-visualization-to-fold-change" id="toc-changing-visualization-to-fold-change" class="nav-link" data-scroll-target="#changing-visualization-to-fold-change">Changing visualization to fold change</a></li>
+  <li><a href="#adding-colum-annotations" id="toc-adding-colum-annotations" class="nav-link" data-scroll-target="#adding-colum-annotations">Adding colum annotations</a></li>
+  </ul></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -245,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 4</h1>
+<h1 class="title">Exercise 3</h1>
 </div>
 
 
@@ -262,117 +274,195 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Project 4 focuses on understanding the mechanisms of immune remodeling in cervical cancer (CC) and identifying potential therapeutic targets; <a href="https://onlinelibrary.wiley.com/doi/10.1002/ctm2.1219">paper1</a>, <a href="https://onlinelibrary.wiley.com/doi/10.1002/cac2.12486">paper2</a>. Cervical cancer progression involves complex interactions between immune cells and tumor cells, leading to an immunosuppressive microenvironment. To investigate these interactions, this study utilizes scRNA-seq data from normal cervix, high-grade squamous intraepithelial lesions (HSIL), and cervical cancer tissues to analyze transcriptional responses in immune cells.</p>
-<p>Unsupervised clustering of transcriptional profiles revealed distinct immune cell populations and their interactions with tumor cells. Differences in immune cell states were linked to the progression of cervical cancer and the establishment of an immunosuppressive microenvironment. Specifically, the study identified unique HPV-related epithelial clusters and critical node genes that regulate disease progression. The transition from normal cervix to HSIL and cervical cancer was marked by changes in immune cell populations, including T cells, dendritic cells, and macrophages.</p>
-<p>Further analysis identified key immune cell subsets and their roles in shaping the tumor microenvironment. Network analyses demonstrated that immune cell interactions influence functional T cell programs and systemic immune coordination. This study provides insights into how immune remodeling impacts cervical cancer progression and highlights transcriptional markers that could be used to predict patient outcomes and guide therapeutic strategies.</p>
-<section id="available-data" class="level2">
-<h2 class="anchored" data-anchor-id="available-data">Available data</h2>
-<p>These samples represent different stages and conditions of cervical tissues, providing a comprehensive dataset for analyzing the progression from normal cervix to cervical cancer.</p>
-<ol type="1">
-<li>Normal Cervix without HPV (NO_HPV):</li>
-</ol>
-<ul>
-<li>N_HPV_NEG_1</li>
-<li>N_HPV_NEG_2</li>
-</ul>
-<ol start="2" type="1">
-<li>Normal Cervix with HPV (N_HPV):</li>
-</ol>
-<ul>
-<li>N_1</li>
-<li>N_2</li>
-</ul>
-<ol start="3" type="1">
-<li>High-Grade Squamous Intraepithelial Lesions with HPV (HSIL_HPV):</li>
-</ol>
-<ul>
-<li>HSIL_1</li>
-<li>HSIL_2</li>
-</ul>
-<ol start="4" type="1">
-<li>Cervical Cancer with HPV (CA_HPV):</li>
-</ol>
-<ul>
-<li>SCC_4</li>
-<li>SCC_5</li>
-<li>ADC_6</li>
-</ul>
-<p>Data has been downloaded and prepared for you from <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE208653">GEO GSE208653</a>.</p>
-<p>In order to download the data, run:</p>
+<section id="chip-and-rna-sequencing-data-plots" class="level1">
+<h1>ChIP and RNA sequencing data plots</h1>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+</section>
+<section id="load-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://single-cell-transcriptomics.s3.eu-central-1.amazonaws.com/projects/data/project4.tar.gz</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzvf</span> project4.tar.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SummarizedExperiment)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichedHeatmap)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gUtils)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtracklayer)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>After extracting, a directory <code>project4</code> appears with the following content:</p>
-<pre><code>.
-├── data
-│   ├── ADC_6
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── HSIL_1
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── HSIL_2
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── N_1
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── N_2
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── N_HPV_NEG_1
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── N_HPV_NEG_2
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   ├── SCC_4
-│   │   ├── barcodes.tsv.gz
-│   │   ├── features.tsv.gz
-│   │   └── matrix.mtx.gz
-│   └── SCC_5
-│       ├── barcodes.tsv.gz
-│       ├── features.tsv.gz
-│       └── matrix.mtx.gz
-├── paper1.pdf
-└── paper2.pdf
-
-10 directories, 29 files</code></pre>
-<p>Now create a new project in the <code>project1</code> directory (Project (None) &gt; New Project …), and create Seurat object from the count matrices:</p>
+</section>
+<section id="chip-seq-se-object" class="level2">
+<h2 class="anchored" data-anchor-id="chip-seq-se-object">ChIP-seq SE object</h2>
+<p>Here we load the <code>SummarizedExperiment</code> for the ATAC-seq data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>h3k4me3 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/h3k4me3_se.rds"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>h3k4me1 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/h3k4me1_se.rds"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>h3k27me3 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/h3k27me3_se.rds"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>h3k27ac <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/h3k27ac_se.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p><strong>Similar to ATAC-seq data, please create <code>EnrichedHeatmap</code> for all ChIP-seq datasets and observe difference in genome activity at different genomic regions.</strong></p>
+</section>
+<section id="rna-seq-data" class="level2">
+<h2 class="anchored" data-anchor-id="rna-seq-data">RNA-seq data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rna <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/rna_se.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="heatmap-of-counts" class="level2">
+<h2 class="anchored" data-anchor-id="heatmap-of-counts">Heatmap of counts</h2>
+<p>For RNA-seq data, we use <code>ComplexHeatmap</code> package to make heatmaps</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="at">matrix =</span> <span class="fu">assay</span>(rna, <span class="st">"logCPM"</span>), </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"RNA"</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_row_names =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="changing-visualization-to-fold-change" class="level3">
+<h3 class="anchored" data-anchor-id="changing-visualization-to-fold-change">Changing visualization to fold change</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">assay</span>(rna, <span class="st">"logCPM"</span>) <span class="sc">-</span> <span class="fu">rowMeans</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assay</span>(rna, <span class="st">"logCPM"</span>)[, <span class="fu">grep</span>(<span class="at">pattern =</span> <span class="st">"11half"</span>, <span class="at">x =</span> <span class="fu">colnames</span>(<span class="fu">assay</span>(rna, <span class="st">"logCPM"</span>)),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">value =</span> T)]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="at">matrix =</span> counts, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"RNA"</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_row_names =</span> <span class="cn">FALSE</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It is now more clear, which genes are up-regulated and which are down-regulated.</p>
+</section>
+<section id="adding-colum-annotations" class="level3">
+<h3 class="anchored" data-anchor-id="adding-colum-annotations">Adding colum annotations</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(rna)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 4 rows and 2 columns
+                                 sample    group
+                            &lt;character&gt; &lt;factor&gt;
+RNA_11half_1.tsv.gz RNA_11half_1.tsv.gz   11half
+RNA_11half_2.tsv.gz RNA_11half_2.tsv.gz   11half
+RNA_15half_1.tsv.gz RNA_15half_1.tsv.gz   15half
+RNA_15half_2.tsv.gz RNA_15half_2.tsv.gz   15half</code></pre>
+</div>
+</div>
+<p>We can add groups information to the heatmap</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="at">matrix =</span> counts, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"RNA"</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_row_names =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_column_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_annotation =</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">df =</span> <span class="fu">colData</span>(rna)[,<span class="dv">2</span>,<span class="at">drop =</span> <span class="cn">FALSE</span>]),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"cm"</span>),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">8</span>, <span class="st">"cm"</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">heatmap_legend_param =</span> <span class="fu">list</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">at =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n =</span> <span class="dv">3</span>)(<span class="fu">range</span>(counts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)), </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"RNA"</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p><strong>Similar to EnrichedHeatmap, we can also split RNA-seq data based on logFC. Can you try to do this?</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>logFC <span class="ot">&lt;-</span> <span class="fu">rowData</span>(rna)[,<span class="st">"logFC"</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(logFC) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(<span class="fu">rowData</span>(rna))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>logFC <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(logFC <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Up regulated"</span>, <span class="st">"Down regulated"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="at">matrix =</span> counts, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">name =</span> <span class="st">"RNA"</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_row_names =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">show_column_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_annotation =</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">df =</span> <span class="fu">colData</span>(rna)[,<span class="dv">2</span>,<span class="at">drop =</span> <span class="cn">FALSE</span>]),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"cm"</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">8</span>, <span class="st">"cm"</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">heatmap_legend_param =</span> <span class="fu">list</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">at =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n =</span> <span class="dv">3</span>)(<span class="fu">range</span>(counts, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)), </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"RNA"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">row_split =</span> logFC</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The input is a data frame-like object, convert it to a matrix.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day1-3_chip_rna_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Project exercise
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>with this dataset, go through the steps we have performed during the course, and try to reproduce the results provided in the paper. Pay specific attention to quality control, clustering and annotation.</p>
+<p><strong><code>Heatmap</code> and <code>EnrichedHeatmap</code> have a lot of options common.</strong></p>
 </div>
 </div>
+
+
 </section>
-<section id="tips" class="level2">
-<h2 class="anchored" data-anchor-id="tips">Tips</h2>
-<ul>
-<li><p>For mitochondrial genes, ribosomol genes and hemoglobin genes you can use the following patterns: <code>"^MT-"</code>, <code>"^RP[SL]"</code> and <code>"^HB[^(P)]"</code>.</p></li>
-<li><p>Work iterative; meaning that based on results of an analyis, adjust the previous analysis. For example, if clustering is not according to cell types, try to adjust the number of components or the resolution.</p></li>
-<li><p>Please read the methods section of the paper.</p></li>
-<li><p>If the code for data analysis is available, try to adapt it (for specific parameters).</p></li>
-<li><p>Check the supplementary figures.</p></li>
-<li><p>Try to understand if they used some other tools for the data analysis.</p></li>
-</ul>
-
-
 </section>
 
 </main> <!-- /main -->
