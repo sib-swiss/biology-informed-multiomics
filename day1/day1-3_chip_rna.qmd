@@ -23,7 +23,6 @@ By the end of this exercise, you will be able to:
 
 ```{r setup, include=FALSE} 
 knitr::opts_chunk$set(warning = FALSE) 
-ht_opt$message = FALSE
 ```
 
 ```{r}

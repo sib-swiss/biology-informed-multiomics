@@ -72,7 +72,6 @@ file.remove("data/data.tar")
 ## Load Libraries
 ```{r setup, include=FALSE} 
 knitr::opts_chunk$set(warning = FALSE) 
-ht_opt$message = FALSE
 ```
 
 ```{r}
@@ -81,6 +80,8 @@ ht_opt$message = FALSE
 library(ComplexHeatmap)
 library(SummarizedExperiment)
 library(ggplot2)
+library(tidyr)
+library(GenomicRanges)
 ```
 
 ## Load SummarizedExperiment Objects
