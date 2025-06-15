@@ -8,6 +8,15 @@ editor_options:
 # ChIP and RNA sequencing data plots
 
 ## Learning Objectives
+By the end of this exercise, you will be able to:
+
+- Load and explore `SummarizedExperiment` objects for ChIP-seq and RNA-seq data.
+- Visualize ChIP-seq signal enrichment across genomic regions using the `EnrichedHeatmap` package.
+- Generate and interpret RNA-seq expression heatmaps using the `ComplexHeatmap` package.
+- Transform RNA-seq data to highlight differential expression using log fold-change.
+- Annotate heatmaps with sample metadata to enhance interpretability.
+- Split and visualize RNA-seq data based on gene regulation status (up- or down-regulated).
+- Compare and reflect on the similarities and differences in visualization techniques between ChIP-seq and RNA-seq data.
 
 
 ## Load Libraries
