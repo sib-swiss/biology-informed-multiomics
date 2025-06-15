@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Exercise 4 – Biology-informed Multiomics Data Integration and Visualization</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/SIB_logo.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ab62ab6abcf2bb06eba42c0c53629186.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+<!-- Matomo --><script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://matomo.sib.swiss/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '220']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script><!-- End Matomo Code -->
+</head>
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Biology-informed Multiomics Data Integration and Visualization</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../precourse_preparations.html"> 
+<span class="menu-text">Precourse preparations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../course_schedule.html"> 
+<span class="menu-text">Course schedule</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">day 1</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-1">
+<li>
+    <a class="dropdown-item" href="../day1/day1-1_dataset.html">
+ <span class="dropdown-text">Exercise 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../day1/day1-2_atac.html">
+ <span class="dropdown-text">Exercise 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../day1/day1-3_chip_rna.html">
+ <span class="dropdown-text">Exercise 3</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-2" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">day 2</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">
+<li>
+    <a class="dropdown-item" href="../day2/day2-1_overlap_matrix.html">
+ <span class="dropdown-text">Exercise 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../day2/day2-2_atac_rna.html">
+ <span class="dropdown-text">Exercise 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../day2/day2-3_multiomics.html">
+ <span class="dropdown-text">Exercise 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../day2/day2-4_enrichment_analysis.md">
+ <span class="dropdown-text"></span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sib-swiss/biology-informed-multiomics-training"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Exercise 4</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      </div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#overlapping-all-the-datasets" id="toc-overlapping-all-the-datasets" class="nav-link active" data-scroll-target="#overlapping-all-the-datasets">Overlapping all the datasets</a>
+  <ul class="collapse">
+<li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#load-libraries" id="toc-load-libraries" class="nav-link" data-scroll-target="#load-libraries">Load Libraries</a></li>
+  <li><a href="#se-objects" id="toc-se-objects" class="nav-link" data-scroll-target="#se-objects">SE objects</a></li>
+  <li><a href="#overlap-matrix" id="toc-overlap-matrix" class="nav-link" data-scroll-target="#overlap-matrix">Overlap matrix</a></li>
+  <li><a href="#function-to-merge-genomic-ranges" id="toc-function-to-merge-genomic-ranges" class="nav-link" data-scroll-target="#function-to-merge-genomic-ranges">Function to merge Genomic Ranges</a></li>
+  <li><a href="#atac-seq" id="toc-atac-seq" class="nav-link" data-scroll-target="#atac-seq">ATAC-Seq</a></li>
+  <li><a href="#rna" id="toc-rna" class="nav-link" data-scroll-target="#rna">RNA</a></li>
+  <li>
+<a href="#chip-seq" id="toc-chip-seq" class="nav-link" data-scroll-target="#chip-seq">ChIP-Seq</a>
+  <ul class="collapse">
+<li><a href="#h3k4me3" id="toc-h3k4me3" class="nav-link" data-scroll-target="#h3k4me3">H3K4me3</a></li>
+  <li><a href="#h3k4me1" id="toc-h3k4me1" class="nav-link" data-scroll-target="#h3k4me1">H3K4me1</a></li>
+  <li><a href="#h3k27me3" id="toc-h3k27me3" class="nav-link" data-scroll-target="#h3k27me3">H3K27me3</a></li>
+  <li><a href="#h3k27ac" id="toc-h3k27ac" class="nav-link" data-scroll-target="#h3k27ac">H3K27ac</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#save-data" id="toc-save-data" class="nav-link" data-scroll-target="#save-data">Save data</a>
+  <ul class="collapse">
+<li><a href="#snapshot-of-overlamatrix" id="toc-snapshot-of-overlamatrix" class="nav-link" data-scroll-target="#snapshot-of-overlamatrix">Snapshot of overlaMatrix</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#normalized-metrics-for-plotting" id="toc-normalized-metrics-for-plotting" class="nav-link" data-scroll-target="#normalized-metrics-for-plotting">Normalized metrics for plotting</a>
+  <ul class="collapse">
+<li><a href="#taking-1000-bp-around-the-mid-of-atac-peaks" id="toc-taking-1000-bp-around-the-mid-of-atac-peaks" class="nav-link" data-scroll-target="#taking-1000-bp-around-the-mid-of-atac-peaks">Taking 1000 bp around the mid of ATAC-peaks</a></li>
+  <li><a href="#atac" id="toc-atac" class="nav-link" data-scroll-target="#atac">ATAC</a></li>
+  <li>
+<a href="#chip" id="toc-chip" class="nav-link" data-scroll-target="#chip">ChIP</a>
+  <ul class="collapse">
+<li><a href="#h3k4me3-1" id="toc-h3k4me3-1" class="nav-link" data-scroll-target="#h3k4me3-1">H3K4me3</a></li>
+  <li><a href="#h3k4me1-1" id="toc-h3k4me1-1" class="nav-link" data-scroll-target="#h3k4me1-1">H3K4me1</a></li>
+  <li><a href="#h27k4me3" id="toc-h27k4me3" class="nav-link" data-scroll-target="#h27k4me3">H27K4me3</a></li>
+  <li><a href="#h27k4ac" id="toc-h27k4ac" class="nav-link" data-scroll-target="#h27k4ac">H27K4ac</a></li>
+  </ul>
+</li>
+  <li><a href="#rna-1" id="toc-rna-1" class="nav-link" data-scroll-target="#rna-1">RNA</a></li>
+  <li><a href="#wgbs" id="toc-wgbs" class="nav-link" data-scroll-target="#wgbs">WGBS</a></li>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link" data-scroll-target="#question-1">Question 1</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Exercise 4</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="overlapping-all-the-datasets" class="level1"><h1>Overlapping all the datasets</h1>
+<section id="learning-objectives" class="level2"><h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this exercise, you will be able to: - Load and explore genomic data using Bioconductor classes such as <code>GRangesList</code> and <code>RangedSummarizedExperiment</code>. - Subset and filter genomic features based on annotation or genomic coordinates. - Perform basic overlap and distance-based queries between genomic intervals. - Integrate multi-assay data (e.g., chromatin marks and gene expression) using shared genomic coordinates.</p>
+</section><section id="load-libraries" class="level2"><h2 class="anchored" data-anchor-id="load-libraries">Load Libraries</h2>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/ComplexHeatmap">ComplexHeatmap</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/EnrichedHeatmap">EnrichedHeatmap</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">gUtils</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rtracklayer</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://henrikbengtsson.github.io/R.utils/">R.utils</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jokergoo/circlize">circlize</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="se-objects" class="level2"><h2 class="anchored" data-anchor-id="se-objects">SE objects</h2>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">atac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/atac_se.rds"</span><span class="op">)</span></span>
+<span><span class="va">rna</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/rna_se.rds"</span><span class="op">)</span></span>
+<span><span class="va">h3k4me3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/h3k4me3_se.rds"</span><span class="op">)</span></span>
+<span><span class="va">h3k4me1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/h3k4me1_se.rds"</span><span class="op">)</span></span>
+<span><span class="va">h3k27me3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/h3k27me3_se.rds"</span><span class="op">)</span></span>
+<span><span class="va">h3k27ac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/h3k27ac_se.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="overlap-matrix" class="level2"><h2 class="anchored" data-anchor-id="overlap-matrix">Overlap matrix</h2>
+</section><section id="function-to-merge-genomic-ranges" class="level2"><h2 class="anchored" data-anchor-id="function-to-merge-genomic-ranges">Function to merge Genomic Ranges</h2>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Merge metadata from two GRanges objects based on overlaps</span></span>
+<span><span class="va">metaGR</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">gr1</span>, <span class="va">gr2</span>, <span class="va">minOverlap</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Initialize metadata with gr1's metadata</span></span>
+<span>  <span class="va">mcols_out</span> <span class="op">&lt;-</span> <span class="fu">mcols</span><span class="op">(</span><span class="va">gr1</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Find overlaps (keep all from gr1)</span></span>
+<span>  <span class="va">hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html">findOverlaps</a></span><span class="op">(</span><span class="va">gr1</span>, <span class="va">gr2</span>, minoverlap <span class="op">=</span> <span class="va">minOverlap</span><span class="op">)</span></span>
+<span>  <span class="va">idx1</span> <span class="op">&lt;-</span> <span class="fu">subjectHits</span><span class="op">(</span><span class="va">hits</span><span class="op">)</span></span>
+<span>  <span class="va">idx2</span> <span class="op">&lt;-</span> <span class="fu">queryHits</span><span class="op">(</span><span class="va">hits</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Prepare new metadata to be added</span></span>
+<span>  <span class="va">new_mcols</span> <span class="op">&lt;-</span> <span class="fu">DataFrame</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">gr1</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="fu">mcols</span><span class="op">(</span><span class="va">gr2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">new_mcols</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">mcols</span><span class="op">(</span><span class="va">gr2</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Fill metadata only for overlaps</span></span>
+<span>  <span class="va">new_mcols</span><span class="op">[</span><span class="va">idx2</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">mcols</span><span class="op">(</span><span class="va">gr2</span><span class="op">)</span><span class="op">[</span><span class="va">idx1</span>, , drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span></span>
+<span>  <span class="co"># Combine original and new metadata</span></span>
+<span>  <span class="fu">mcols</span><span class="op">(</span><span class="va">gr1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">mcols_out</span>, <span class="va">new_mcols</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">gr1</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="atac-seq" class="level2"><h2 class="anchored" data-anchor-id="atac-seq">ATAC-Seq</h2>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract rowRanges and filter peaks with strong signal</span></span>
+<span><span class="va">rd_atac</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">atac</span><span class="op">)</span></span>
+<span><span class="va">rd_atac</span> <span class="op">&lt;-</span> <span class="va">rd_atac</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_atac</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_atac</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_atac</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"ATAC"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_atac</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="rna" class="level2"><h2 class="anchored" data-anchor-id="rna">RNA</h2>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter differentially expressed genes</span></span>
+<span><span class="va">rd_rna</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">rna</span><span class="op">)</span></span>
+<span><span class="va">rd_rna</span> <span class="op">&lt;-</span> <span class="va">rd_rna</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_rna</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_rna</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_rna</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"RNA"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_rna</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="fu">metaGR</span><span class="op">(</span>gr1 <span class="op">=</span> <span class="va">rd_atac</span>, gr2 <span class="op">=</span> <span class="va">rd_rna</span>, minOverlap <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="chip-seq" class="level2"><h2 class="anchored" data-anchor-id="chip-seq">ChIP-Seq</h2>
+<section id="h3k4me3" class="level3"><h3 class="anchored" data-anchor-id="h3k4me3">H3K4me3</h3>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rd_h3k4me3</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">h3k4me3</span><span class="op">)</span></span>
+<span><span class="va">rd_h3k4me3</span> <span class="op">&lt;-</span> <span class="va">rd_h3k4me3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_h3k4me3</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_h3k4me3</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k4me3</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"H3K4me3"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k4me3</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="fu">metaGR</span><span class="op">(</span>gr1 <span class="op">=</span> <span class="va">overlap</span>, gr2 <span class="op">=</span> <span class="va">rd_h3k4me3</span>, minOverlap <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="h3k4me1" class="level3"><h3 class="anchored" data-anchor-id="h3k4me1">H3K4me1</h3>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rd_h3k4me1</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">h3k4me1</span><span class="op">)</span></span>
+<span><span class="va">rd_h3k4me1</span> <span class="op">&lt;-</span> <span class="va">rd_h3k4me1</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_h3k4me1</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_h3k4me1</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k4me1</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"H3K4me1"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k4me1</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="fu">metaGR</span><span class="op">(</span>gr1 <span class="op">=</span> <span class="va">overlap</span>, gr2 <span class="op">=</span> <span class="va">rd_h3k4me1</span>, minOverlap <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in .merge_two_Seqinfo_objects(x, y): Each of the 2 combined objects has sequence levels not in the other:
+  - in 'x': chrY
+  - in 'y': chr4_GL456216_random, chr4_JH584295_random, chrX_GL456233_random, chrUn_JH584304
+  Make sure to always combine/compare objects based on the same reference
+  genome (use suppressWarnings() to suppress this warning).</code></pre>
+</div>
+</div>
+</section><section id="h3k27me3" class="level3"><h3 class="anchored" data-anchor-id="h3k27me3">H3K27me3</h3>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rd_h3k27me3</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">h3k27me3</span><span class="op">)</span></span>
+<span><span class="va">rd_h3k27me3</span> <span class="op">&lt;-</span> <span class="va">rd_h3k27me3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_h3k27me3</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_h3k27me3</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k27me3</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"H3K27me3"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k27me3</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="fu">metaGR</span><span class="op">(</span>gr1 <span class="op">=</span> <span class="va">overlap</span>, gr2 <span class="op">=</span> <span class="va">rd_h3k27me3</span>, minOverlap <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="h3k27ac" class="level3"><h3 class="anchored" data-anchor-id="h3k27ac">H3K27ac</h3>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rd_h3k27ac</span> <span class="op">&lt;-</span> <span class="fu">rowRanges</span><span class="op">(</span><span class="va">h3k27ac</span><span class="op">)</span></span>
+<span><span class="va">rd_h3k27ac</span> <span class="op">&lt;-</span> <span class="va">rd_h3k27ac</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">rd_h3k27ac</span><span class="op">$</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">0.5</span> <span class="op">&amp;</span> <span class="va">rd_h3k27ac</span><span class="op">$</span><span class="va">qvalue</span> <span class="op">&lt;=</span> <span class="fl">0.1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k27ac</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"H3K27ac"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu">elementMetadata</span><span class="op">(</span><span class="va">rd_h3k27ac</span><span class="op">)</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">overlap</span> <span class="op">&lt;-</span> <span class="fu">metaGR</span><span class="op">(</span>gr1 <span class="op">=</span> <span class="va">overlap</span>, gr2 <span class="op">=</span> <span class="va">rd_h3k27ac</span>, minOverlap <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="save-data" class="level2"><h2 class="anchored" data-anchor-id="save-data">Save data</h2>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Add a name field and save the final integrated object</span></span>
+<span><span class="va">overlap</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"peak"</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">overlap</span><span class="op">$</span><span class="va">name</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"output"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in dir.create("output"): 'output' already exists</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">overlap</span>, file <span class="op">=</span> <span class="st">"output/overlap_data.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="snapshot-of-overlamatrix" class="level3"><h3 class="anchored" data-anchor-id="snapshot-of-overlamatrix">Snapshot of overlaMatrix</h3>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">overlap</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>GRanges object with 3 ranges and 109 metadata columns:
+         seqnames          ranges strand |        ATAC_annotation ATAC_geneChr
+            &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |            &lt;character&gt;    &lt;integer&gt;
+  peak_1     chr1 3670547-3672665      * |       Promoter (&lt;=1kb)            1
+  peak_2     chr1 4332510-4332710      * | Intron (ENSMUST00000..            1
+  peak_3     chr1 4491755-4492573      * |       Promoter (1-2kb)            1
+         ATAC_geneStart ATAC_geneEnd ATAC_geneLength ATAC_geneStrand
+              &lt;integer&gt;    &lt;integer&gt;       &lt;integer&gt;       &lt;integer&gt;
+  peak_1        3214482      3671498          457017               2
+  peak_2        4344146      4360314           16169               2
+  peak_3        4492465      4493735            1271               2
+         ATAC_geneId    ATAC_transcriptId ATAC_distanceToTSS       ATAC_ENSEMBL
+         &lt;character&gt;          &lt;character&gt;          &lt;numeric&gt;        &lt;character&gt;
+  peak_1      497097 ENSMUST00000070533.4                  0 ENSMUSG00000051951
+  peak_2       19888 ENSMUST00000027032.5              27604 ENSMUSG00000025900
+  peak_3       20671 ENSMUST00000191939.1               1162 ENSMUSG00000025902
+         ATAC_SYMBOL          ATAC_GENENAME   ATAC_anno ATAC_logFC ATAC_logCPM
+         &lt;character&gt;            &lt;character&gt; &lt;character&gt;  &lt;numeric&gt;   &lt;numeric&gt;
+  peak_1        Xkr4 X-linked Kx blood gr..    Promoter   0.602984    10.45378
+  peak_2         Rp1 retinitis pigmentosa..      Intron   0.855748     5.18424
+  peak_3       Sox17 SRY (sex determining..    Promoter  -0.620926     7.13469
+            ATAC_F ATAC_PValue ATAC_qvalue      RNA_Row.names RNA_gene_id
+         &lt;numeric&gt;   &lt;numeric&gt;   &lt;numeric&gt;        &lt;character&gt; &lt;character&gt;
+  peak_1  41.78446 6.58453e-08 4.81983e-07 ENSMUSG00000051951      497097
+  peak_2   3.68371 6.13517e-02 9.28785e-02               &lt;NA&gt;        &lt;NA&gt;
+  peak_3   9.14522 4.12368e-03 8.38540e-03               &lt;NA&gt;        &lt;NA&gt;
+          RNA_SYMBOL           RNA_GENENAME        RNA_ENSEMBL RNA_geneLength
+         &lt;character&gt;            &lt;character&gt;        &lt;character&gt;      &lt;integer&gt;
+  peak_1        Xkr4 X-linked Kx blood gr.. ENSMUSG00000051951         457017
+  peak_2        &lt;NA&gt;                   &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;
+  peak_3        &lt;NA&gt;                   &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;
+         RNA_geneChr RNA_geneStart RNA_geneEnd RNA_geneStrand  RNA_geneId
+         &lt;character&gt;     &lt;integer&gt;   &lt;integer&gt;    &lt;character&gt; &lt;character&gt;
+  peak_1        chr1       3214482     3671498              -      497097
+  peak_2        &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;        &lt;NA&gt;
+  peak_3        &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;        &lt;NA&gt;
+             RNA_transcriptId    RNA_anno RNA_logFC RNA_logCPM     RNA_F
+                  &lt;character&gt; &lt;character&gt; &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt;
+  peak_1 ENSMUST00000070533.4        Gene   1.37498    5.62452   33.7077
+  peak_2                 &lt;NA&gt;        &lt;NA&gt;        NA         NA        NA
+  peak_3                 &lt;NA&gt;        &lt;NA&gt;        NA         NA        NA
+         RNA_PValue RNA_qvalue H3K4me3_annotation H3K4me3_geneChr
+          &lt;numeric&gt;  &lt;numeric&gt;        &lt;character&gt;       &lt;integer&gt;
+  peak_1 0.00224273 0.00628871   Promoter (&lt;=1kb)               1
+  peak_2         NA         NA               &lt;NA&gt;            &lt;NA&gt;
+  peak_3         NA         NA               &lt;NA&gt;            &lt;NA&gt;
+         H3K4me3_geneStart H3K4me3_geneEnd H3K4me3_geneLength
+                 &lt;integer&gt;       &lt;integer&gt;          &lt;integer&gt;
+  peak_1           3214482         3671498             457017
+  peak_2              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+  peak_3              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+         H3K4me3_geneStrand H3K4me3_geneId H3K4me3_transcriptId
+                  &lt;integer&gt;    &lt;character&gt;          &lt;character&gt;
+  peak_1                  2         497097 ENSMUST00000070533.4
+  peak_2               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+  peak_3               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+         H3K4me3_distanceToTSS    H3K4me3_ENSEMBL H3K4me3_SYMBOL
+                     &lt;numeric&gt;        &lt;character&gt;    &lt;character&gt;
+  peak_1                     0 ENSMUSG00000051951           Xkr4
+  peak_2                    NA               &lt;NA&gt;           &lt;NA&gt;
+  peak_3                    NA               &lt;NA&gt;           &lt;NA&gt;
+               H3K4me3_GENENAME H3K4me3_anno H3K4me3_logFC H3K4me3_logCPM
+                    &lt;character&gt;  &lt;character&gt;     &lt;numeric&gt;      &lt;numeric&gt;
+  peak_1 X-linked Kx blood gr..     Promoter      0.607114        9.26749
+  peak_2                   &lt;NA&gt;         &lt;NA&gt;            NA             NA
+  peak_3                   &lt;NA&gt;         &lt;NA&gt;            NA             NA
+         H3K4me3_F H3K4me3_PValue H3K4me3_qvalue H3K4me1_annotation
+         &lt;numeric&gt;      &lt;numeric&gt;      &lt;numeric&gt;        &lt;character&gt;
+  peak_1   135.443    4.65079e-31    1.28968e-29               &lt;NA&gt;
+  peak_2        NA             NA             NA               &lt;NA&gt;
+  peak_3        NA             NA             NA               &lt;NA&gt;
+         H3K4me1_geneChr H3K4me1_geneStart H3K4me1_geneEnd H3K4me1_geneLength
+               &lt;integer&gt;         &lt;integer&gt;       &lt;integer&gt;          &lt;integer&gt;
+  peak_1            &lt;NA&gt;              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+  peak_2            &lt;NA&gt;              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+  peak_3            &lt;NA&gt;              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+         H3K4me1_geneStrand H3K4me1_geneId H3K4me1_transcriptId
+                  &lt;integer&gt;    &lt;character&gt;          &lt;character&gt;
+  peak_1               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+  peak_2               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+  peak_3               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+         H3K4me1_distanceToTSS H3K4me1_ENSEMBL H3K4me1_SYMBOL H3K4me1_GENENAME
+                     &lt;numeric&gt;     &lt;character&gt;    &lt;character&gt;      &lt;character&gt;
+  peak_1                    NA            &lt;NA&gt;           &lt;NA&gt;             &lt;NA&gt;
+  peak_2                    NA            &lt;NA&gt;           &lt;NA&gt;             &lt;NA&gt;
+  peak_3                    NA            &lt;NA&gt;           &lt;NA&gt;             &lt;NA&gt;
+         H3K4me1_anno H3K4me1_logFC H3K4me1_logCPM H3K4me1_F H3K4me1_PValue
+          &lt;character&gt;     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt;      &lt;numeric&gt;
+  peak_1         &lt;NA&gt;            NA             NA        NA             NA
+  peak_2         &lt;NA&gt;            NA             NA        NA             NA
+  peak_3         &lt;NA&gt;            NA             NA        NA             NA
+         H3K4me1_qvalue H3K27me3_annotation H3K27me3_geneChr H3K27me3_geneStart
+              &lt;numeric&gt;         &lt;character&gt;        &lt;integer&gt;          &lt;integer&gt;
+  peak_1             NA                &lt;NA&gt;             &lt;NA&gt;               &lt;NA&gt;
+  peak_2             NA                &lt;NA&gt;             &lt;NA&gt;               &lt;NA&gt;
+  peak_3             NA    Promoter (&lt;=1kb)                1            4492465
+         H3K27me3_geneEnd H3K27me3_geneLength H3K27me3_geneStrand
+                &lt;integer&gt;           &lt;integer&gt;           &lt;integer&gt;
+  peak_1             &lt;NA&gt;                &lt;NA&gt;                &lt;NA&gt;
+  peak_2             &lt;NA&gt;                &lt;NA&gt;                &lt;NA&gt;
+  peak_3          4493735                1271                   2
+         H3K27me3_geneId H3K27me3_transcriptId H3K27me3_distanceToTSS
+             &lt;character&gt;           &lt;character&gt;              &lt;numeric&gt;
+  peak_1            &lt;NA&gt;                  &lt;NA&gt;                     NA
+  peak_2            &lt;NA&gt;                  &lt;NA&gt;                     NA
+  peak_3           20671  ENSMUST00000191939.1                      0
+           H3K27me3_ENSEMBL H3K27me3_SYMBOL      H3K27me3_GENENAME
+                &lt;character&gt;     &lt;character&gt;            &lt;character&gt;
+  peak_1               &lt;NA&gt;            &lt;NA&gt;                   &lt;NA&gt;
+  peak_2               &lt;NA&gt;            &lt;NA&gt;                   &lt;NA&gt;
+  peak_3 ENSMUSG00000025902           Sox17 SRY (sex determining..
+         H3K27me3_anno H3K27me3_logFC H3K27me3_logCPM H3K27me3_F
+           &lt;character&gt;      &lt;numeric&gt;       &lt;numeric&gt;  &lt;numeric&gt;
+  peak_1          &lt;NA&gt;             NA              NA         NA
+  peak_2          &lt;NA&gt;             NA              NA         NA
+  peak_3      Promoter        -1.0597         9.04668    87.0802
+         H3K27me3_PValue H3K27me3_qvalue H3K27ac_annotation H3K27ac_geneChr
+               &lt;numeric&gt;       &lt;numeric&gt;        &lt;character&gt;       &lt;integer&gt;
+  peak_1              NA              NA   Promoter (&lt;=1kb)               1
+  peak_2              NA              NA               &lt;NA&gt;            &lt;NA&gt;
+  peak_3     1.32026e-20     5.28858e-18               &lt;NA&gt;            &lt;NA&gt;
+         H3K27ac_geneStart H3K27ac_geneEnd H3K27ac_geneLength
+                 &lt;integer&gt;       &lt;integer&gt;          &lt;integer&gt;
+  peak_1           3214482         3671498             457017
+  peak_2              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+  peak_3              &lt;NA&gt;            &lt;NA&gt;               &lt;NA&gt;
+         H3K27ac_geneStrand H3K27ac_geneId H3K27ac_transcriptId
+                  &lt;integer&gt;    &lt;character&gt;          &lt;character&gt;
+  peak_1                  2         497097 ENSMUST00000070533.4
+  peak_2               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+  peak_3               &lt;NA&gt;           &lt;NA&gt;                 &lt;NA&gt;
+         H3K27ac_distanceToTSS    H3K27ac_ENSEMBL H3K27ac_SYMBOL
+                     &lt;numeric&gt;        &lt;character&gt;    &lt;character&gt;
+  peak_1                     0 ENSMUSG00000051951           Xkr4
+  peak_2                    NA               &lt;NA&gt;           &lt;NA&gt;
+  peak_3                    NA               &lt;NA&gt;           &lt;NA&gt;
+               H3K27ac_GENENAME H3K27ac_anno H3K27ac_logFC H3K27ac_logCPM
+                    &lt;character&gt;  &lt;character&gt;     &lt;numeric&gt;      &lt;numeric&gt;
+  peak_1 X-linked Kx blood gr..     Promoter       1.25269        8.81735
+  peak_2                   &lt;NA&gt;         &lt;NA&gt;            NA             NA
+  peak_3                   &lt;NA&gt;         &lt;NA&gt;            NA             NA
+         H3K27ac_F H3K27ac_PValue H3K27ac_qvalue        name
+         &lt;numeric&gt;      &lt;numeric&gt;      &lt;numeric&gt; &lt;character&gt;
+  peak_1   151.496    1.67395e-34     4.0813e-32      peak_1
+  peak_2        NA             NA             NA      peak_2
+  peak_3        NA             NA             NA      peak_3
+  -------
+  seqinfo: 21 sequences from an unspecified genome; no seqlengths</code></pre>
+</div>
+</div>
+</section></section></section><section id="normalized-metrics-for-plotting" class="level1"><h1>Normalized metrics for plotting</h1>
+<section id="taking-1000-bp-around-the-mid-of-atac-peaks" class="level2"><h2 class="anchored" data-anchor-id="taking-1000-bp-around-the-mid-of-atac-peaks">Taking 1000 bp around the mid of ATAC-peaks</h2>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract midpoints of peaks to create windows for visualization</span></span>
+<span><span class="va">mid_peaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gUtils/man/gr.mid.html">gr.mid</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="atac" class="level2"><h2 class="anchored" data-anchor-id="atac">ATAC</h2>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load ATAC bigWig files</span></span>
+<span><span class="va">atac_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"ATAC"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">atac_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bw"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">atac_files</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">atac_bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">atac_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">[</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">a</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Normalize signal around mid_peaks</span></span>
+<span><span class="va">mat_AS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">atac_bw</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>    extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    value_column <span class="op">=</span> <span class="st">"score"</span>,</span>
+<span>    include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    mean_mode <span class="op">=</span> <span class="st">"w0"</span>,</span>
+<span>    w <span class="op">=</span> <span class="fl">20</span>, </span>
+<span>    smooth <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    background <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.
+Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_AS</span>, file <span class="op">=</span> <span class="st">"./output/mat_atac.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="chip" class="level2"><h2 class="anchored" data-anchor-id="chip">ChIP</h2>
+<section id="h3k4me3-1" class="level3"><h3 class="anchored" data-anchor-id="h3k4me3-1">H3K4me3</h3>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">h3k4me3_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"H3K4me3"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">h3k4me3_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bw"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">h3k4me3_files</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h3k4me3_bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k4me3_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">[</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">a</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mat_h3k4me3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k4me3_bw</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>    extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    value_column <span class="op">=</span> <span class="st">"score"</span>,</span>
+<span>    include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    mean_mode <span class="op">=</span> <span class="st">"w0"</span>,</span>
+<span>    w <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    smooth <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    background <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.
+Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_h3k4me3</span>, file <span class="op">=</span> <span class="st">"./output/mat_h3k4me3.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="h3k4me1-1" class="level3"><h3 class="anchored" data-anchor-id="h3k4me1-1">H3K4me1</h3>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">h3k4me1_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"H3K4me1"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">h3k4me1_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bw"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">h3k4me1_files</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h3k4me1_bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k4me1_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">[</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">a</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mat_h3k4me1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k4me1_bw</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>    extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    value_column <span class="op">=</span> <span class="st">"score"</span>,</span>
+<span>    include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    mean_mode <span class="op">=</span> <span class="st">"w0"</span>,</span>
+<span>    w <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    smooth <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    background <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.
+Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_h3k4me1</span>, file <span class="op">=</span> <span class="st">"./output/mat_h3k4me1.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="h27k4me3" class="level3"><h3 class="anchored" data-anchor-id="h27k4me3">H27K4me3</h3>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">h3k27me3_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"H3K27me3"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">h3k27me3_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bw"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">h3k27me3_files</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h3k27me3_bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k27me3_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">[</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">a</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mat_h3k27me3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k27me3_bw</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>    extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    value_column <span class="op">=</span> <span class="st">"score"</span>,</span>
+<span>    include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    mean_mode <span class="op">=</span> <span class="st">"w0"</span>,</span>
+<span>    w <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    smooth <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    background <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.
+Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_h3k27me3</span>, file <span class="op">=</span> <span class="st">"./output/mat_h3k27me3.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="h27k4ac" class="level3"><h3 class="anchored" data-anchor-id="h27k4ac">H27K4ac</h3>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">h3k27ac_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"H3K27ac"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">h3k27ac_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bw"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">h3k27ac_files</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">h3k27ac_bw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k27ac_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="va">a</span><span class="op">[</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">a</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">a</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mat_h3k27ac</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">h3k27ac_bw</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>    extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>    value_column <span class="op">=</span> <span class="st">"score"</span>,</span>
+<span>    include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>    mean_mode <span class="op">=</span> <span class="st">"w0"</span>,</span>
+<span>    w <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>    smooth <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>    background <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.
+Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_h3k27ac</span>, file <span class="op">=</span> <span class="st">"./output/mat_h3k27ac.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="rna-1" class="level2"><h2 class="anchored" data-anchor-id="rna-1">RNA</h2>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Match overlapping peak names with RNA-seq gene names</span></span>
+<span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="fu">elementMetadata</span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"RNA_Row.names"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Get logCPM matrix</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowMeans.html">rowMeans</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"11half"</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">rna</span>, <span class="st">"logCPM"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                              value <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Merge gene expression values with peaks</span></span>
+<span><span class="va">mat_RNA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">tmp</span>, <span class="va">counts</span>, by.x <span class="op">=</span> <span class="st">"RNA_Row.names"</span>, by.y <span class="op">=</span> <span class="st">"row.names"</span>, all.x <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set rownames to peak names and cleanup</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mat_RNA</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">mat_RNA</span><span class="op">$</span><span class="va">name</span></span>
+<span><span class="va">mat_RNA</span> <span class="op">&lt;-</span> <span class="va">mat_RNA</span><span class="op">[</span>,<span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mat_RNA</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">".tsv.gz"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mat_RNA</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">mat_RNA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.matrix.html">data.matrix</a></span><span class="op">(</span><span class="va">mat_RNA</span><span class="op">)</span></span>
+<span><span class="va">mat_RNA</span> <span class="op">&lt;-</span> <span class="va">mat_RNA</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">overlap</span><span class="op">)</span>,<span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Save data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_RNA</span>, file <span class="op">=</span> <span class="st">"./output/mat_rna.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="wgbs" class="level2"><h2 class="anchored" data-anchor-id="wgbs">WGBS</h2>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Bisulfite seq coverage files after methylation call</span></span>
+<span><span class="va">bs_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data"</span>, pattern <span class="op">=</span> <span class="st">"WGBS"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">bs_files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"\\.bed.gz"</span>, replacement <span class="op">=</span> <span class="st">""</span>, x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">bs_files</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reading coverage</span></span>
+<span><span class="va">bs_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">bs_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span>  </span>
+<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span></span>
+<span>      input <span class="op">=</span> <span class="va">x</span>,</span>
+<span>      sep <span class="op">=</span> <span class="st">" "</span>, quote <span class="op">=</span> <span class="cn">F</span>, stringsAsFactors <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>      data.table <span class="op">=</span> <span class="cn">FALSE</span>, nThread <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html">detectCores</a></span><span class="op">(</span><span class="op">)</span>, showProgress <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>      col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"seqnames"</span>, <span class="st">"start"</span>, <span class="st">"end"</span>, <span class="st">"cov"</span>, <span class="st">"Me"</span>, <span class="st">"Un"</span>, <span class="st">"meth"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Normalized matrics</span></span>
+<span><span class="va">mat_bs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">bs_cov</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/normalizeToMatrix.html">normalizeToMatrix</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">mid_peaks</span>,</span>
+<span>      extend <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>      value_column <span class="op">=</span> <span class="st">"meth"</span>,</span>
+<span>      include_target <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>      smooth <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>      mean_mode <span class="op">=</span> <span class="st">"absolute"</span>,</span>
+<span>      background <span class="op">=</span> <span class="cn">NA</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Smoothing is failed for one row because there are very few signals
+overlapped to it. Please use `failed_rows(mat)` to get the index of the
+failed row and consider to remove it.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Width of `target` are all 1, `include_target` is set to `FALSE`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>All signal values are within [0, 1], so we assume it is methylation
+signal. Automatically set limit [0, 1] to the smoothed values. If this
+is not the case, set argument `limit = NA` in the function to remove
+the limits. Set `verbose = FALSE` to turn off this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Smoothing is failed for one row because there are very few signals
+overlapped to it. Please use `failed_rows(mat)` to get the index of the
+failed row and consider to remove it.</code></pre>
+</div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">mat_bs</span>, file <span class="op">=</span> <span class="st">"./output/mat_bs.rds"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="question-1" class="level2"><h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p><strong>Make an <code>EnrichedHeatmap</code></strong> of methylation data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/EnrichedHeatmap.html">EnrichedHeatmap</a></span><span class="op">(</span></span>
+<span>  mat <span class="op">=</span> <span class="va">mat_bs</span><span class="op">$</span><span class="va">WGBS_11half</span>,    <span class="co"># normalized matrix</span></span>
+<span>  name <span class="op">=</span> <span class="st">"E11.5"</span>,              <span class="co"># Name for the plot</span></span>
+<span>  width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">4</span>, <span class="st">"cm"</span><span class="op">)</span>,       <span class="co"># Width of the heatmap</span></span>
+<span>  height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">8</span>, <span class="st">"cm"</span><span class="op">)</span>      <span class="co"># Height of the heatmap</span></span>
+<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/EnrichedHeatmap/man/EnrichedHeatmap.html">EnrichedHeatmap</a></span><span class="op">(</span></span>
+<span>  mat <span class="op">=</span> <span class="va">mat_bs</span><span class="op">$</span><span class="va">WGBS_15half</span>,    <span class="co"># normalized matrix</span></span>
+<span>  name <span class="op">=</span> <span class="st">"E15.5"</span>,              <span class="co"># Name for the plot</span></span>
+<span>  width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">4</span>, <span class="st">"cm"</span><span class="op">)</span>,       <span class="co"># Width of the heatmap</span></span>
+<span>  height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">8</span>, <span class="st">"cm"</span><span class="op">)</span>      <span class="co"># Height of the heatmap</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The automatically generated colors map from the 1^st and 99^th of the
+values in the matrix. There are outliers in the matrix whose patterns
+might be hidden by this color mapping. You can manually set the color
+to `col` argument.
+
+Use `suppressMessages()` to turn off this message.
+The automatically generated colors map from the 1^st and 99^th of the
+values in the matrix. There are outliers in the matrix whose patterns
+might be hidden by this color mapping. You can manually set the color
+to `col` argument.
+
+Use `suppressMessages()` to turn off this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="day2-1_overlap_matrix_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have not performed differential analysis for DNA methylation data. If you want, you can. Here, we are using DNA methylation as an observartory mark.</p>
+</div>
+</div>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sib-swiss\.github\.io\/biology-informed-multiomics\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+</body></html>
