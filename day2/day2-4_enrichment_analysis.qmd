@@ -8,11 +8,6 @@ format: docx
 # Enrichment analysis
 
 ## Load Libraries
-```{r setup, include=FALSE} 
-knitr::opts_chunk$set(warning = FALSE)
-ht_opt$message = FALSE
-```
-
 ```{r}
 #| warning: false
 #| message: false
@@ -22,7 +17,9 @@ library(org.Mm.eg.db)
 library(simplifyEnrichment)
 library(flexclust)
 ```
-
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE)
+```
 
 ## OverlapMatrix
 ```{r}
