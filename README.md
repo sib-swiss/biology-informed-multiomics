@@ -19,7 +19,7 @@ Any contribution to this course material is highly appreciated :+1:. Please have
 
 ## Helper
 
--  Joana Carlevaro-Fita[ORCiD](https://orcid.org/0000-0002-1674-2055)
+-  Joana Carlevaro-Fita [ORCiD](https://orcid.org/0000-0002-1674-2055)
 
 ## How reuse this material
 
