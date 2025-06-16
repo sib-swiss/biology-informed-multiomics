@@ -173,7 +173,7 @@ mat_AS <- lapply(atac_bw, FUN = function(x) {
   )
 })
 
-saveRDS(mat_AS, file = "./output/mat_atac.rds")
+saveRDS(mat_AS, file = "output/mat_atac.rds")
 ```
 
 ## ChIP
@@ -200,7 +200,7 @@ mat_h3k4me3 <- lapply(h3k4me3_bw, FUN = function(x) {
   )
 })
 
-saveRDS(mat_h3k4me3, file = "./output/mat_h3k4me3.rds")
+saveRDS(mat_h3k4me3, file = "output/mat_h3k4me3.rds")
 ```
 
 ### H3K4me1
@@ -225,7 +225,7 @@ mat_h3k4me1 <- lapply(h3k4me1_bw, FUN = function(x) {
   )
 })
 
-saveRDS(mat_h3k4me1, file = "./output/mat_h3k4me1.rds")
+saveRDS(mat_h3k4me1, file = "output/mat_h3k4me1.rds")
 ```
 
 ### H27K4me3
@@ -250,7 +250,7 @@ mat_h3k27me3 <- lapply(h3k27me3_bw, FUN = function(x) {
   )
 })
 
-saveRDS(mat_h3k27me3, file = "./output/mat_h3k27me3.rds")
+saveRDS(mat_h3k27me3, file = "output/mat_h3k27me3.rds")
 ```
 
 ### H27K4ac
@@ -275,7 +275,7 @@ mat_h3k27ac <- lapply(h3k27ac_bw, FUN = function(x) {
   )
 })
 
-saveRDS(mat_h3k27ac, file = "./output/mat_h3k27ac.rds")
+saveRDS(mat_h3k27ac, file = "output/mat_h3k27ac.rds")
 ```
 
 ## RNA
@@ -301,7 +301,7 @@ mat_RNA <- data.matrix(mat_RNA)
 mat_RNA <- mat_RNA[names(overlap),]
 
 # Save data
-saveRDS(mat_RNA, file = "./output/mat_rna.rds")
+saveRDS(mat_RNA, file = "output/mat_rna.rds")
 ```
 
 ## WGBS
@@ -334,7 +334,7 @@ mat_bs <- lapply(bs_cov, FUN = function(x) {
     )
 })
 
-saveRDS(mat_bs, file = "./output/mat_bs.rds")
+saveRDS(mat_bs, file = "output/mat_bs.rds")
 ```
 
 

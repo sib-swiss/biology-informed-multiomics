@@ -11,7 +11,7 @@ editor_options:
 
 By the end of this notebook, you will be able to:
 
-- Understand the structure of `SummarizedExperiment` and `GRanges` objects in R.
+- Understand the structure of `SummarizedExperiment` and `GRanges` objects in `R`.
 - Access and manipulate metadata and assays within `SummarizedExperiment`.
 - Visualize and subset genomic intervals using `GRanges`.
 - Recognize how even RNA expression data can be stored as genomic ranges.
@@ -21,7 +21,7 @@ By the end of this notebook, you will be able to:
 :::
 
 # Dataset for the course
-In this course, we work with **multi-omics datasets** derived from the developing **mouse neural tube** at two developmental stages: **E11.5** and **E15.5**. These stages represent key transitions in central nervous system development. These datasets are downloaded and processed from the ENCODE project: [Mouse Development Matrix](https://www.encodeproject.org/mouse-development-matrix/?type=Experiment&status=released&related_series.@type=OrganismDevelopmentSeries&replicates.library.biosample.organism.scientific_name=Mus+musculus#neural_tube). For the sake of time and efficient computational usage, datasets are analyzed for only chromosomes 1 and 2.
+In this course, we are working with **multi-omics datasets** derived from the developing **mouse neural tube** at two developmental stages: **E11.5** and **E15.5**. These stages represent key transitions in central nervous system development. These datasets are downloaded and processed from the ENCODE project: [Mouse Development Matrix](https://www.encodeproject.org/mouse-development-matrix/?type=Experiment&status=released&related_series.@type=OrganismDevelopmentSeries&replicates.library.biosample.organism.scientific_name=Mus+musculus#neural_tube). For the sake of time and efficient computational usage, datasets are analyzed for only chromosomes 1 and 2.
 
 The following chromatin and transcriptional profiling datasets are included, each with **two biological replicates per time point**:
 
@@ -40,7 +40,7 @@ All datasets are preprocessed and stored in **`SummarizedExperiment` (SE)** obje
 * **RowRanges** describe genomic coordinates (`GRanges`) for each feature (gene, peak, region).
 * **ColData** holds metadata for each sample (e.g., stage, replicate).
 
-The use of SE objects enables consistent handling of multi-omics data, facilitates downstream integration, and supports interoperability with Bioconductor tools.
+The use of `SE` objects enables consistent handling of multi-omics data, facilitates downstream integration, and supports interoperability with Bioconductor tools.
 
 * `SummarizedExperiment` enables structured storage of high-dimensional omics data and metadata.
 * `GRanges` makes it easy to manipulate and visualize genomic intervals across datasets.
@@ -179,7 +179,7 @@ ggplot(df_combined, aes(x = sample, y = expression, fill = assay)) +
 
 ## Question 2
 
-**Make a new `SummarizedExperiment` object by subsetting `rna`. Take only first 2 samples and first 10 genes. Check the `assays`, row and column metadata.**
+**Make a new `SummarizedExperiment` object by sub-setting `rna`. Take only first 2 samples and first 10 genes. Check the `assays`, row and column metadata.**
 
 ::: {.callout-tip collapse="true"}
 

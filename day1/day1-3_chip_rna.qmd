@@ -109,7 +109,7 @@ Heatmap(matrix = counts,
 
 ## Question 2
 
-**Similar to EnrichedHeatmap, we can also split RNA-seq data based on logFC. Can you try to do this?**
+**Similar to `EnrichedHeatmap`, we can also split RNA-seq data based on logFC. Can you try to do this?**
 
 :::{.callout-tip collapse="true"}
 ```{r}
@@ -136,5 +136,5 @@ Heatmap(matrix = counts,
 :::
 
 :::{.callout-important}
-**`Heatmap` and `EnrichedHeatmap` have a lot of options common.**
+**`Heatmap` and `EnrichedHeatmap` have a lot of options in common.**
 :::

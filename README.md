@@ -17,6 +17,10 @@ Any contribution to this course material is highly appreciated :+1:. Please have
 - Geert van Geest [ORCiD](https://orcid.org/0000-0002-1561-078X)
 - Patricia Palagi [ORCiD](https://orcid.org/0000-0001-9062-6303)
 
+## Helper
+
+-  Joana Carlevaro-Fita[ORCiD](https://orcid.org/0000-0002-1674-2055)
+
 ## How reuse this material
 
 This website is generated with [quarto](https://quarto.org/). To re-build the website, download and install [Rstudio](https://posit.co/download/rstudio-desktop/) and [Quarto CLI](https://quarto.org/docs/get-started/). Also make sure you have installed the [required packages](Docker/install_packages.R). After that, clone this repository:

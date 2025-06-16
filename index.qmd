@@ -16,6 +16,10 @@ title: "Biology-informed Multiomics Data Integration and Visualization"
 - Geert van Geest [ORCiD](https://orcid.org/0000-0002-1561-078X)
 - Patricia Palagi [ORCiD](https://orcid.org/0000-0001-9062-6303)
 
+## Helper
+
+-  Joana Carlevaro-Fita[ORCiD](https://orcid.org/0000-0002-1674-2055)
+
 ## License & copyright
 
 **License:** [CC BY 4.0](https://github.com/sib-swiss/biology-informed-multiomics-training/blob/master/LICENSE.md)

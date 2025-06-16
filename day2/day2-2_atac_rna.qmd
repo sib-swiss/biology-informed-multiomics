@@ -34,8 +34,8 @@ rownames(colData(rna)) <- gsub(pattern = "\\.tsv.gz", replacement = "", x = rown
 
 overlap <- readRDS("output/overlap_data.rds")
 
-mat_ATAC <- readRDS("./output/mat_atac.rds")
-mat_RNA <- readRDS("./output/mat_rna.rds")
+mat_ATAC <- readRDS("output/mat_atac.rds")
+mat_RNA <- readRDS("output/mat_rna.rds")
 ```
 
 

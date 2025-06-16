@@ -428,5 +428,5 @@ draw(anno_an_df + eh_11h + eh_15h, split = split_anno_dir, merge_legend = TRUE)
 :::
 
 :::{.callout-important}
-**`Heatmap` and `EnrichedHeatmap` serve different functions, however the plots can be combined effortlessly. This makes  the visualization of complex data easy**
+**`Heatmap` and `EnrichedHeatmap` serve different functions, however the plots can be combined effortlessly. This makes  the visualization of complex data easy.**
 :::
