@@ -7,8 +7,18 @@ editor_options:
 
 # Integrating ATAC and RNA sequencing data
 
+![](../assets/images/multiomics.png)
+
 ## Learning Objectives
 
+By the end of this exercise, you will be able to:
+
+- Understand the biological significance of different assays such as ATAC-seq, ChIP-seq for histone marks, DNA methylation, and RNA-seq, and how they relate to gene regulation.
+- Process and integrate multi-omics data using SummarizedExperiment objects and annotation data.
+- Identify and classify regulatory genomic regions (e.g., gained/lost enhancers, activated/repressed promoters) based on changes in chromatin accessibility, histone modifications, and gene expression.
+- Visualize complex multi-omics data by generating heatmaps with the EnrichedHeatmap and ComplexHeatmap R packages, highlighting changes across developmental stages.
+- Interpret integrated heatmaps to explore relationships between chromatin state, DNA methylation, and transcriptional output.
+- Use custom functions to automate visualization workflows, adapting color scales and annotations for effective data presentation.
 
 ## Load Libraries
 ```{r setup, include=FALSE} 
@@ -23,6 +33,16 @@ library(EnrichedHeatmap)
 library(circlize)
 library(SummarizedExperiment)
 ```
+
+| **Assay**               | **What It Measures**        | **Biological Insight*      |
+| ----------------------- | --------------------------- | -------------------------- |
+| **ATAC-seq**            | Chromatin accessibility     | Identifies **open chromatin regions**, such as promoters and enhancers.     |
+| **ChIP-seq (H3K4me3)**  | Active promoter mark        | Marks **active promoters**; often found at TSS (Transcription Start Sites). |
+| **ChIP-seq (H3K27ac)**  | Active enhancer/promoter    | Marks **active regulatory regions**, especially enhancers.                  |
+| **ChIP-seq (H3K4me1)**  | Primed or poised enhancers  | Marks **enhancers** that may be active or **poised**, not promoters.        |
+| **ChIP-seq (H3K27me3)** | Repressive regions          | Marks **silenced genes** or developmental repression (Polycomb repression). |
+| **DNAme**               | DNA methylation (CpG sites) | Typically associated with **gene silencing** and **heterochromatin**.       |
+| **RNA-seq**             | Gene expression             | Final **transcriptional output**; mRNA abundance.                           |
 
 
 ## Load required objects from previous exercises
@@ -49,6 +69,9 @@ mat_BS <- readRDS("output/mat_bs.rds")
 
 
 ## Regulatory regions
+
+We will sub-categorized the regions from the `Exercise 5` based on the above table.
+
 ### Gained Enhancers (E15.5 > E11.5)
 ```{r}
 logFC_cols <- grep(pattern = "logFC", x = colnames(elementMetadata(overlap)))
@@ -336,4 +359,9 @@ dev.off()
 
 :::{.callout-important}
 You can make all possible categories from this `overlapMatrix`. Feel free to make more categories.
+:::
+
+## Bonus
+:::{.callout-important}
+A reference guide for integrating multiomics data is provided here: [Reference Guide](https://sib-swiss.github.io/biology-informed-multiomics-training/assets/reference_guide.html)
 :::

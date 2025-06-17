@@ -7,7 +7,19 @@ editor_options:
 
 # Integrating ATAC and RNA sequencing data
 
+![](../assets/images/atac_rna.png)
+
 ## Learning Objectives
+
+By the end of this exercise, you will be able to:
+
+- Load and manipulate `SummarizedExperiment` objects containing ATAC-seq and RNA-seq data.
+- Understand how to categorize genomic regions based on combined accessibility (ATAC) and expression (RNA) changes.
+- Annotate genomic regions with meaningful biological categories such as "Active", "Repressed", "Silent", and others.
+- Use the `ComplexHeatmap` and `EnrichedHeatmap` packages to visualize multi-omics data with customizable heatmaps.
+- Implement and modify heatmap functions to integrate and compare ATAC and RNA signal patterns across samples.
+- Adjust factor levels to control the order of categories in heatmaps for clear biological interpretation.
+- Combine multiple heatmaps and annotations for integrative visualization of chromatin accessibility and gene expression.
 
 
 ## Load Libraries
@@ -40,6 +52,8 @@ mat_RNA <- readRDS("output/mat_rna.rds")
 
 
 ## Add possible genomic regions for ATAC and RNA
+
+Based on the table above, we will assign categories to the `overlapMatrix`.
 ```{r}
 overlap$ATAC_RNA <- NULL
 
@@ -193,9 +207,23 @@ _**Hint:**_ You would have to change the factor levels of `split_anno`.
 
 ### Answer
 
+We have to re-make the annotation heatmap. `draw` function takes order from first object.
+
 ```{r}
 unique(split_anno)
 split_anno <- factor(split_anno, levels = unique(split_anno)[c(1,6,5,4,2,3)])
+
+anno_hm <- Heatmap(
+  mat = split_anno,
+  col = cols_an, 
+  name = "Annotation",
+  show_row_names = FALSE, 
+  show_column_names = FALSE, 
+  width = unit(2, "mm"),
+  height = unit(8, "cm"),
+  row_order = row_order_eh,
+  row_title_gp = gpar(fontsize = 0)
+)
 
 draw(anno_hm + eh_11h + eh_15h + rna_hm, split = split_anno, merge_legend = FALSE)
 ```
@@ -203,7 +231,7 @@ draw(anno_hm + eh_11h + eh_15h + rna_hm, split = split_anno, merge_legend = FALS
 :::
 
 :::{.callout-important}
-To make the plots a bit prettier, you can run these codes before makeing the plot. You only need to run these once while you are in an `R` session, not before making every plot.
+To make the plots a bit prettier, you can run these codes before making the plot. You only need to run these once while you are in an `R` session, not before making every plot.
 
 ```{r}
 ht_opt$TITLE_PADDING <- unit(1, "mm")

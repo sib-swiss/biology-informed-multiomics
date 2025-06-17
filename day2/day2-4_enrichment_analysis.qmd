@@ -1,8 +1,8 @@
 ---
 title: "Exercise 7"
+editor: source
 editor_options: 
   chunk_output_type: console
-format: docx
 ---
 
 # Enrichment analysis

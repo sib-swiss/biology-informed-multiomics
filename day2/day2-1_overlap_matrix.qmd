@@ -33,6 +33,8 @@ library(data.table)
 library(parallel)
 library(R.utils)
 library(circlize)
+library(dplyr)
+library(tibble)
 ```
 
 ## SE objects
@@ -46,6 +48,7 @@ h3k27ac <- readRDS("data/h3k27ac_se.rds")
 ```
 
 ## Overlap matrix
+To make the `overlapMatrix` (you could also say `overlapRanges`), we need to identify a target. 
 
 ## Function to merge Genomic Ranges
 
@@ -142,6 +145,60 @@ overlap[1:3]
 
 
 # Normalized metrics for plotting
+
+Recommendations based on ENCODE Project Consortium and other literature:
+
+| Assays                     | Typical Window Size (± kb) | Reason / Notes                                 |
+| -------------------------- | -------------------------- | ---------------------------------------------- |
+| **ATAC-seq**               | ±1 kb                      | Narrow peaks, accessibility centered on summit |
+| **H3K4me3**                | ±1 kb to ±2 kb             | Promoter mark, sharp and narrow peaks          |
+| **H3K4me1**                | ±2 kb to ±5 kb             | Enhancer-associated, moderately broad          |
+| **H3K27me3**               | ±5 kb to ±10 kb            | Broad repressive domains                       |
+| **H3K27ac**                | ±2 kb to ±5 kb             | Active enhancers/promoters, broader peaks      |
+
+We can check the `mean` and `median` of each histone marks and make the `normalizedMatrix` accordingly.
+
+```{r}
+# Calculate mean and median widths for each dataset
+
+summary_table <- tibble(
+  Assay = c("ATAC-seq", "H3K4me3", "H3K4me1", "H3K27me3", "H3K27ac"),
+  Mean_Width = c(
+    mean(width(rd_atac)),
+    mean(width(rd_h3k4me3)),
+    mean(width(rd_h3k4me1)),
+    mean(width(rd_h3k27me3)),
+    mean(width(rd_h3k27ac))
+  ),
+  Median_Width = c(
+    median(width(rd_atac)),
+    median(width(rd_h3k4me3)),
+    median(width(rd_h3k4me1)),
+    median(width(rd_h3k27me3)),
+    median(width(rd_h3k27ac))
+  ),
+  Min_Width = c(
+    min(width(rd_atac)),
+    min(width(rd_h3k4me3)),
+    min(width(rd_h3k4me1)),
+    min(width(rd_h3k27me3)),
+    min(width(rd_h3k27ac))
+  ),
+  Max_Width = c(
+    max(width(rd_atac)),
+    max(width(rd_h3k4me3)),
+    max(width(rd_h3k4me1)),
+    max(width(rd_h3k27me3)),
+    max(width(rd_h3k27ac))
+  )
+)
+
+print(summary_table)
+```
+
+
+As we restricted the data for this course to just 2 chromosomes, maximum peaks are around 1kb wide. Hence, we will go ahead with `+/- 1kb` windows for our analysis.
+
 
 ## Taking 1000 bp around the mid of ATAC-peaks
 ```{r}

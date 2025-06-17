@@ -25,11 +25,11 @@ title: "Course schedule"
 | block   	| start    	| end      	| subject                             	| exercise                        	|
 |---------	|----------	|----------	|-------------------------------------	|--------------------------------	|
 | Recap from Day 1	| 9:00 AM 	| 9:15 AM 	|  | |
-| Data overlap matrix | 9:15 AM  	| 10:30 AM	| [Lecture 4]() | [Exercise 4](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-1_overlap_matrix.html) |
+| Data overlap matrix | 9:15 AM  	| 10:30 AM	| [Lecture 4](assets/pdf/05_data_overlapMatrix.pdf) | [Exercise 4](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-1_overlap_matrix.html) |
 | BREAK	| 10:30 AM	|  11:00 AM	|  | |
-| ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| [Lecture 5]() | [Exercise 5](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-2_atac_rna.html) |
+| ATAC-seq and RNA-seq plot	| 11:00 AM	| 12:00 PM	| [Lecture 5](assets/pdf/06_atac_rna_plots.pdf) | [Exercise 5](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-2_atac_rna.html) |
 | LUNCH	| 12:00 PM	| 1:00 PM	|  |
-| Multi-omics data visualization	| 1:00 PM	| 3:00 PM	| [Lecture 6]() | [Exercise 6](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-3_multiomics.html) |
+| Multi-omics data visualization	| 1:00 PM	| 3:00 PM	| [Lecture 6](assets/pdf/) | [Exercise 6](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-3_multiomics.html) |
 | BREAK	| 3:00 PM	|  3:30 PM	|  | |
-| Functional analysis	| 3:30 PM	| 5:00 PM	| [Lecture 7]() | [Exercise 7](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-4_enrichment_analysis.html) |
-| Post-course info	| 5:00 PM	| 5:10 PM	| [Slides]() | |
+| Functional analysis	| 3:30 PM	| 5:00 PM	| [Lecture 7](assets/pdf/07_multiomics.pdf) | [Exercise 7](https://sib-swiss.github.io/biology-informed-multiomics-training/day2/day2-4_enrichment_analysis.html) |
+| Post-course info	| 5:00 PM	| 5:10 PM	| [Slides](assets/pdf/) | |
