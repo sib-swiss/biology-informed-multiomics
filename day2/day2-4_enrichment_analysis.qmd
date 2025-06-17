@@ -17,6 +17,7 @@ library(org.Mm.eg.db)
 library(simplifyEnrichment)
 library(flexclust)
 ```
+
 ```{r setup, include=FALSE} 
 knitr::opts_chunk$set(warning = FALSE)
 ```
@@ -26,24 +27,53 @@ knitr::opts_chunk$set(warning = FALSE)
 overlap <- readRDS("output/overlap_anno2.rds")
 ```
 
-## Running enrichment analysis
+We have several cluster of genomic activities. We will run enrichment analysis of regions from one of them, "Active Promoters".
+
+## Running enrichment analysis on regions of our interest
+
+### subset the `GRanges`
+
 ```{r}
 gr <- overlap[overlap$ATAC_RNA == "Active Promoters"]
-res <- great(gr, "BP", "mm10")
-
-plotVolcano(res)
-plotRegionGeneAssociations(res)
-getRegionGeneAssociations(res)
+seqlevels(gr) <- as.character(unique(seqnames(gr)))
 ```
 
+
+### Running enrichment analysis
+```{r}
+res <- great(gr = gr, gene_sets = "BP", tss_source = "mm10")
+```
+
+## Results
+
+### Volcano plot
+```{r}
+plotVolcano(res)
+```
+
+
+### Regions-gene assiciation plot
+```{r}
+plotRegionGeneAssociations(res)
+```
+
+### There is a `shiny` application to explore the results
 ```{r, eval=FALSE}
 shinyReport(res)
 ```
 
+### Simplyfied representation of GO terms
+
 ```{r}
-tb = getEnrichmentTable(res)
-sig_go_ids = tb$id[tb$p_adjust < 0.05]
-cl = simplifyGO(mat = sig_go_ids)
+tb <- getEnrichmentTable(res)
+sig_go_ids <- tb$id[tb$p_adjust < 0.05]
+cl <- simplifyGO(mat = sig_go_ids)
+```
+
+
+```{r}
+summarizeGO(go_id = sig_go_ids, -log10(tb$p_adjust[tb$p_adjust < 0.05]), 
+            axis_label = "average -log10(p.adjust)")
 ```
 
 ### Output
